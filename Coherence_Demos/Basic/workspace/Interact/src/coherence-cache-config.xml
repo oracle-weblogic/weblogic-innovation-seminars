@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE cache-config SYSTEM "cache-config.dtd">
+<cache-config>
+  <caching-scheme-mapping>
+    <cache-mapping>
+      <cache-name>DBBacked*</cache-name>
+      <scheme-name>distributed-db-backed</scheme-name>
+    </cache-mapping>
+  </caching-scheme-mapping>
+  
+  <caching-schemes>    
+    <distributed-scheme>
+      <scheme-name>distributed-db-backed</scheme-name>
+      <service-name>DistributedCache</service-name>
+      <backing-map-scheme>
+        <read-write-backing-map-scheme>
+          <internal-cache-scheme>
+            <class-scheme>
+              <class-name>com.tangosol.util.ObservableHashMap</class-name>
+            </class-scheme>
+          </internal-cache-scheme>
+          <cachestore-scheme>
+            <class-scheme>
+              <class-name>com.oracle.coherence.handson.DBCacheStore</class-name>
+              <init-params>
+                <!-- Table name -->
+                <init-param>
+                  <param-type>java.lang.String</param-type>
+                  <param-value>CATALOG</param-value>
+                </init-param>
+              </init-params>
+            </class-scheme>
+          </cachestore-scheme>
+          <read-only>false</read-only>
+          <write-delay-seconds>0</write-delay-seconds>
+        </read-write-backing-map-scheme>
+      </backing-map-scheme>
+      <autostart>true</autostart>
+    </distributed-scheme>
+  </caching-schemes>
+</cache-config>

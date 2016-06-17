@@ -51,7 +51,7 @@
         <!-- this sets the version for the WLS Maven Plugin which will be used by child projects -->
         <plugin>
           <groupId>com.oracle.weblogic</groupId>
-          <artifactId>wls-maven-plugin</artifactId>
+          <artifactId>weblogic-maven-plugin</artifactId>
         </plugin>
 
         <!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->

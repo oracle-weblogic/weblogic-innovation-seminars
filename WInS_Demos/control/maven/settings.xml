@@ -89,8 +89,7 @@ under the License.
    |-->
   <proxies>
     <proxy>
-      <id>optional</id>
-      <active>false</active>
+      <active>true</active>
       <protocol>http</protocol>
       <host>www-proxy.us.oracle.com</host>
       <port>80</port>

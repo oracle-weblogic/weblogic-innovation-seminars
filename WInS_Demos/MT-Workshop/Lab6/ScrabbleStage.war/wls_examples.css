@@ -1,0 +1,188 @@
+  <!-- copied from index pages in depot/docs/acadia/pages and modified feb 2002-->
+
+body {
+ FONT-FAMILY: Verdana,Geneva,Arial,Helvetica,sans-serif;
+}
+p {
+ MARGIN-LEFT: 0.2in; 
+ MARGIN-RIGHT: 0; 
+ MARGIN-TOP: 0.1in; 
+ MARGIN-BOTTOM: 0; 
+ FONT-FAMILY: Verdana,Geneva,Arial,Helvetica,sans-serif;
+ FONT-SIZE: 10pt;
+ COLOR: #000000;
+}
+p.cnavbar { 
+ MARGIN-LEFT: 0; 
+ MARGIN-RIGHT: 0; 
+ MARGIN-TOP: 0;  
+ MARGIN-BOTTOM: 0.01in; 
+ FONT-FAMILY: Arial,Helvetica,sans-serif;
+ FONT-SIZE: 8pt;
+ COLOR: #FFFFFF;
+ TEXT-DECORATION: None;
+}
+p.codefont {
+ FONT-FAMILY: Courier;
+ COLOR: #000080;
+}
+p.copyright {
+ FONT-SIZE: 8pt;
+}
+p.dnavbar { 
+ MARGIN-LEFT: 0; 
+ MARGIN-RIGHT: 0; 
+ MARGIN-TOP: 0; 
+ MARGIN-BOTTOM: 0.01in; 
+ FONT-FAMILY: Arial,Helvetica,sans-serif;
+ FONT-SIZE: 9pt;
+ FONT-WEIGHT: Bold;
+ COLOR: #000000;
+ TEXT-DECORATION: None;
+}
+p.glossdef {
+ MARGIN-LEFT: 0.4in; 
+}
+p.glossterm {
+ FONT-WEIGHT: bold; 
+}
+p.headmain {
+ MARGIN-LEFT: 0.15in; 
+ MARGIN-RIGHT: 0; 
+ MARGIN-TOP: 0.2in; 
+ MARGIN-BOTTOM: 0; 
+ FONT-FAMILY: Arial,Helvetica,sans-serif;
+ FONT-WEIGHT: bold; 
+ FONT-SIZE: 24pt;
+}
+h1 { 
+ MARGIN-LEFT: 0.15in; 
+ MARGIN-RIGHT: 0; 
+ MARGIN-TOP: 0.2in; 
+ MARGIN-BOTTOM: 0; 
+ FONT-FAMILY: Arial,Helvetica,sans-serif; 
+ FONT-WEIGHT: bold; 
+ FONT-SIZE: 20pt; 
+ COLOR: #996600;
+}
+h2 { 
+ MARGIN-LEFT: 0.15in; 
+ MARGIN-RIGHT: 0; 
+ MARGIN-TOP: 0.25in; 
+ MARGIN-BOTTOM: 0; 
+ FONT-FAMILY: Arial,Helvetica,sans-serif; 
+ FONT-WEIGHT: bold; 
+ FONT-SIZE: 16pt; 
+ COLOR: #996600;
+}
+h3 { 
+ MARGIN-LEFT: 0.15in; 
+ MARGIN-RIGHT: 0; 
+ MARGIN-TOP: 0.25in; 
+ MARGIN-BOTTOM: 0; 
+ FONT-FAMILY: Arial,Helvetica,sans-serif; 
+ FONT-WEIGHT: bold; 
+ FONT-SIZE: 14pt; 
+ COLOR: #996600;
+}
+h4 { 
+ MARGIN-LEFT: 0.15in; 
+ MARGIN-RIGHT: 0; 
+ MARGIN-TOP: 0.25in; 
+ MARGIN-BOTTOM: 0; 
+ FONT-FAMILY: Arial,Helvetica,sans-serif; 
+ FONT-WEIGHT: bold;
+ FONT-SIZE: 11pt; 
+ COLOR: #996600;
+}
+p.letterguide { 
+ MARGIN-LEFT: 0.15in; 
+ MARGIN-RIGHT: 0; 
+ MARGIN-TOP: 0.25in; 
+ MARGIN-BOTTOM: 0; 
+ TEXT-ALIGN: center;
+ VERTICAL-ALIGN: middle;
+ FONT-FAMILY: Arial,Helvetica,sans-serif; 
+ FONT-WEIGHT: bold; 
+ FONT-SIZE: 12pt; 
+}
+p.localtopic1sonly {
+ MARGIN-TOP: 0; 
+ MARGIN-LEFT: 0.2in; 
+}
+p.localtopic2 {
+ MARGIN-TOP: 0; 
+ MARGIN-LEFT: 0.4in; 
+}
+p.localtopic3 {
+ MARGIN-TOP: 0; 
+ MARGIN-LEFT: 0.6in; 
+}
+p.navbar { 
+ MARGIN-LEFT: 0; 
+ MARGIN-RIGHT: 0; 
+ MARGIN-TOP: 0; 
+ MARGIN-BOTTOM: 0.01in; 
+ FONT-FAMILY: Arial,Helvetica,sans-serif;
+ FONT-SIZE: 9pt;
+ FONT-WEIGHT: Bold;
+ COLOR: #000000;
+ TEXT-DECORATION: None;
+}
+p.notepara {
+ MARGIN-LEFT: 0.7in;
+}
+p.small {
+ MARGIN-LEFT: 0; 
+ MARGIN-RIGHT: 0; 
+ MARGIN-TOP: 0; 
+ MARGIN-BOTTOM: 0; 
+ FONT-SIZE: 1pt;
+}
+p.table {
+ MARGIN-LEFT: 0; 
+ MARGIN-RIGHT: 0; 
+ MARGIN-TOP: 0; 
+ MARGIN-BOTTOM: 0.1 in; 
+}
+p.title {
+ FONT-WEIGHT: Bold;
+}
+p.titletable {
+ MARGIN-LEFT: 0; 
+ FONT-WEIGHT: Bold;
+}
+ol {
+ MARGIN-RIGHT: 0; 
+ MARGIN-BOTTOM: 0; 
+ FONT-FAMILY: Verdana,Geneva,Arial,Helvetica,sans-serif;
+ FONT-SIZE: 10pt;
+ COLOR: #000000;
+}
+ul,dl {
+ MARGIN-RIGHT: 0; 
+ FONT-FAMILY: Verdana,Geneva,Arial,Helvetica,sans-serif;
+ FONT-SIZE: 10pt;
+ COLOR: #000000;
+}
+pre {
+ MARGIN-LEFT: 0.2in;
+ FONT-FAMILY: Courier;
+ COLOR: #000080;
+}
+code {
+ FONT-FAMILY: Courier;
+ COLOR: #000080;
+}
+a:link {
+ COLOR: #996600;
+}
+a:active {
+ COLOR: #0000CC;
+}
+a:hover {
+ COLOR: #FF0000;
+}
+a:visited {
+ COLOR: #9999CC;
+}

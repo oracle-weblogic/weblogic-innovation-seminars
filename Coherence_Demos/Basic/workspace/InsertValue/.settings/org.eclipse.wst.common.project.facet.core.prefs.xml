@@ -1,0 +1,7 @@
+<root>
+  <facet id="oracle.coherence">
+    <node name="libprov">
+      <attribute name="provider-id" value="user-library-provider-coherence"/>
+    </node>
+  </facet>
+</root>

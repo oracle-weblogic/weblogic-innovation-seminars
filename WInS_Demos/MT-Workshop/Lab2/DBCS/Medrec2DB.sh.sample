@@ -1,0 +1,13 @@
+#!/bin/bash
+
+
+sqlplus @database.dba.user@/@database.dba.pass@@@database.instance.1@:1521/@database.instance.pdb2.1@.@identity.domain@.oraclecloud.internal <<EOF
+ create user medrec2 identified by medrec2;
+ grant DBA to medrec2;
+ exit;
+EOF
+
+sqlplus medrec2/medrec2@@database.instance.1@:1521/@database.instance.pdb2.1@.@identity.domain@.oraclecloud.internal <<EOF
+ @/tmp/Medrec.sql
+ exit;
+EOF

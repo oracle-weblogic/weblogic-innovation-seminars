@@ -1,0 +1,13 @@
+cluster_name='@jcs.instance@_cluster'
+connect('@weblogic.admin.user@','@weblogic.admin.pass@','t3://@jcs.instance@-wls-1.compute-@identity.domain@.oraclecloud.internal:7001')
+edit()
+
+startEdit()
+shutdown(cluster_name,'Cluster',force='true')
+activate()
+
+print "************************ Deployng HeapApp in dp2 partition ****************************"
+
+deploy(appName='heapApp', partition='dp2', resourceGroup='app2RG', path='/tmp/heapApp.war')
+
+disconnect()

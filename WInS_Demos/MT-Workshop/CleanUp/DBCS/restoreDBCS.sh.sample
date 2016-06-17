@@ -1,0 +1,30 @@
+#!/bin/bash
+
+sqlplus system/@database.dba.pass@@@database.instance.1@:1521/@database.instance.pdb1.1@.@identity.domain@.oraclecloud.internal <<EOF
+ drop user conference cascade;
+ exit;
+EOF
+
+sqlplus system/@database.dba.pass@@@database.instance.1@:1521/@database.instance.pdb1.1@.@identity.domain@.oraclecloud.internal <<EOF
+ drop user trade cascade;
+ exit;
+EOF
+
+sqlplus system/@database.dba.pass@@@database.instance.1@:1521/@database.instance.pdb2.1@.@identity.domain@.oraclecloud.internal <<EOF
+ drop user medrec2 cascade;
+ exit;
+EOF
+
+sqlplus system/@database.dba.pass@@@database.instance.1@:1521/@database.instance.pdb1.1@.@identity.domain@.oraclecloud.internal <<EOF
+ drop user medrec1 cascade;
+ exit;
+EOF
+
+sqlplus / as sysdba <<EOF
+ ALTER PLUGGABLE DATABASE PDB2 CLOSE;
+ ALTER PLUGGABLE DATABASE PDB2 UNPLUG INTO '/u02/app/oracle/oradata/ORCL/PDB2.xml';
+ DROP PLUGGABLE DATABASE PDB2;
+ exit;
+EOF
+
+rm /u02/app/oracle/oradata/ORCL/PDB2.xml

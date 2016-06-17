@@ -4,7 +4,7 @@
   <parent>
     <groupId>com.oracle.weblogic.demo.wins</groupId>
     <artifactId>common-ejb</artifactId>
-    <version>12.1.2.0.0</version>
+    <version>12.1.3.0.0</version>
     <relativePath>../common/common-deployable/common-ejb/pom.xml</relativePath>
   </parent>
   <!-- ==================================================================================== -->
@@ -14,7 +14,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.oracle.weblogic.demo.wins</groupId>
   <artifactId>fast-swap</artifactId>
-  <version>12.1.2.0.0</version>
+  <version>12.1.3.0.0</version>
   <packaging>pom</packaging>
   <name>fast-swap</name>
 

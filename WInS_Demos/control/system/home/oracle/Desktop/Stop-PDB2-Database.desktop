@@ -1,0 +1,10 @@
+
+[Desktop Entry]
+Version=1.0
+Type=Application
+Terminal=true
+Icon[en_US]=/u01/content/weblogic-innovation-seminars/WInS_Demos/control/images/oraclexe-stopdatabase.png
+Name[en_US]=Stop PDB2 Database
+Exec=/u01/content/weblogic-innovation-seminars/WInS_Demos/control/bin/stopPDB2Database.sh wait
+Name=Stop PDB2 Database
+Icon=/u01/content/weblogic-innovation-seminars/WInS_Demos/control/images/pdb_stop.png

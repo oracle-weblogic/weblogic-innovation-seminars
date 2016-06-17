@@ -5,7 +5,7 @@
   <parent>
     <groupId>com.oracle.weblogic.demo.wins</groupId>
     <artifactId>common</artifactId>
-    <version>12.1.2.0.0</version>
+    <version>12.1.3.0.0</version>
     <relativePath>../common/pom.xml</relativePath>
   </parent>
 
@@ -15,7 +15,7 @@
 
   <groupId>com.oracle.weblogic.demo.wins</groupId>
   <artifactId>websockets-examples</artifactId>
-  <version>${parent.version}</version>
+  <version>12.1.3.0.0</version>
   <packaging>pom</packaging>
 
   <name>websockets-examples</name>

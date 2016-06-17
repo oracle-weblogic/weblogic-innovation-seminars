@@ -1,10 +1,9 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-
   <parent>
     <groupId>com.oracle.weblogic.demo.maven</groupId>
     <artifactId>common-deployable</artifactId>
-    <version>12.1.2.0.0</version>
+    <version>12.1.3.0.0</version>
     <relativePath>../common-deployable/pom.xml</relativePath>
   </parent>
 
@@ -12,7 +11,7 @@
   <groupId>com.oracle.weblogic.demo.maven</groupId>
   <artifactId>web-project-2</artifactId>
   <packaging>war</packaging>
-  <version>12.1.2.0.0</version>
+  <version>12.1.3.0.0</version>
   <name>web-project-2</name>
 
 </project>

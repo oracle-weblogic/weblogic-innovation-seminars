@@ -1,0 +1,4 @@
+defsfile ./dirsql/csemployee.sql
+userid csdemo@pdborcl password csdemo
+table csdemo.employee;
+

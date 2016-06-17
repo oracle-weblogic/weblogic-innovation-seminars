@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<launchConfiguration type="oracle.eclipse.tools.coherence.launchConfigurationType">
+<mapAttribute key="coherence.system.properties">
+<mapEntry key="CacheConfig" value="tangosol.coherence.cacheconfig"/>
+<mapEntry key="LocalStorage" value="tangosol.coherence.distributed.localstorage"/>
+<mapEntry key="Log" value="tangosol.coherence.log"/>
+<mapEntry key="LogLevel" value="tangosol.coherence.log.level"/>
+<mapEntry key="Management" value="tangosol.coherence.management"/>
+</mapAttribute>
+<mapAttribute key="coherence.values">
+<mapEntry key="CacheConfig" value="coherence-cache-config.xml"/>
+<mapEntry key="LocalStorage" value="false"/>
+<mapEntry key="Log" value="stdout"/>
+<mapEntry key="LogLevel" value="9"/>
+<mapEntry key="Management" value="all"/>
+</mapAttribute>
+<listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
+<listEntry value="/JPA/src/com/oracle/coherence/handson/RunEmployeeExample.java"/>
+</listAttribute>
+<listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
+<listEntry value="1"/>
+</listAttribute>
+<listAttribute key="org.eclipse.debug.ui.favoriteGroups">
+<listEntry value="org.eclipse.debug.ui.launchGroup.run"/>
+</listAttribute>
+<stringAttribute key="org.eclipse.jdt.launching.JRE_CONTAINER" value="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.8.0_25"/>
+<stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="com.oracle.coherence.handson.RunEmployeeExample"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="JPA"/>
+</launchConfiguration>

@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Terminal=false
+Icon[en_US]=xfce4_xicon1
+Name[en_US]=Getting Started
+Exec=/usr/bin/firefox /u01/content/weblogic-innovation-seminars/WInS_Demos/control/files/GettingStarted.html
+Name=Start Here
+Icon=/home/oracle/Desktop/wins_demos/control/images/info.jpg

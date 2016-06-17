@@ -16,7 +16,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
  * { auction : 123 }
  * </pre>
  * 
- * @version 12.1.2
+ * @version 12.1.3
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 public class SubscriptionRequest {

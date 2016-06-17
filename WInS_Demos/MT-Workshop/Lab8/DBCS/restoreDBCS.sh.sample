@@ -1,0 +1,6 @@
+#!/bin/sh
+
+sqlplus @database.dba.user@/@database.dba.pass@@@database.instance.1@:1521/@database.instance.pdb1.1@.@identity.domain@.oraclecloud.internal <<EOF
+ drop user conference cascade;
+ exit;
+EOF

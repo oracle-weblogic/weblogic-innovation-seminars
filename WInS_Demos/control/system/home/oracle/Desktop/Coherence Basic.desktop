@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Terminal=false
+Icon[en_US]=/u02/oepe/icon.xpm
+Exec=/u01/oepe/eclipse -data /u01/content/weblogic-innovation-seminars/Coherence_Demos/Basic/workspace
+Name[en_US]=Coherence Basic
+Name=OEPE
+Icon=/u01/content/weblogic-innovation-seminars/Coherence_Demos/coherence_icon.png

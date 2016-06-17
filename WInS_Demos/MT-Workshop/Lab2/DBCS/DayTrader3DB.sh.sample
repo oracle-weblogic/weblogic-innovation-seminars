@@ -1,0 +1,8 @@
+#!/bin/bash
+
+sqlplus @database.dba.user@/@database.dba.pass@@@database.instance.1@:1521/@database.instance.pdb1.1@.@identity.domain@.oraclecloud.internal <<EOF
+ create user trade identified by trade;
+ grant DBA to trade;
+ exit;
+EOF
+

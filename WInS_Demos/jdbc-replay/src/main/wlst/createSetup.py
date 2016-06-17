@@ -1,4 +1,4 @@
-connect('weblogic','welcome1','t3://wins-vbox:9001')
+connect('weblogic','welcome1','t3://wins-vbox:7001')
 edit()
 startEdit()
 
@@ -13,7 +13,7 @@ cd('/JDBCSystemResources/otrade-ds/JDBCResource/otrade-ds/JDBCDataSourceParams/o
 set('JNDINames',jarray.array([String('otrade-ds')], String))
 
 cd('/JDBCSystemResources/otrade-ds/JDBCResource/otrade-ds/JDBCDriverParams/otrade-ds')
-cmo.setUrl('jdbc:oracle:thin:@//wins-vbox:1521/AC')
+cmo.setUrl('jdbc:oracle:thin:@//localhost:1521/AC')
 cmo.setDriverName('oracle.jdbc.OracleDriver')
 cmo.setPasswordEncrypted('welcome1')
 cd('/JDBCSystemResources/otrade-ds/JDBCResource/otrade-ds/JDBCConnectionPoolParams/otrade-ds')

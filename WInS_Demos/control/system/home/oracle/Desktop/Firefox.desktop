@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Terminal=false
+Icon[en_US]=xfce4_xicon1
+Name[en_US]=Firefox
+Exec=/usr/bin/firefox
+Name=Start Here
+Icon=/usr/lib64/firefox/browser/icons/mozicon128.png

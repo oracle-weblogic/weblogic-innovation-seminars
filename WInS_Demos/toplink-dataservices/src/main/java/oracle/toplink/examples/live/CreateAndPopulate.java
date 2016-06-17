@@ -19,7 +19,7 @@ import org.eclipse.persistence.jpa.dynamic.JPADynamicHelper;
  * based on the settings defined in the <code>auction</code> persistence unit. This database
  * population class can be run multiple times as it also drops any existing schema before populating.</p>
  *
- * @version 12.1.2
+ * @version 12.1.3
  */
 public class CreateAndPopulate {
 

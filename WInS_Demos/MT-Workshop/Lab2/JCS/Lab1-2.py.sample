@@ -1,0 +1,494 @@
+#Starting AdminServer through NodeManager
+datasource_jdbc_url_pdb1='jdbc:oracle:thin:@@database.instance.1@:1521/@database.instance.pdb1.1@.@identity.domain@.oraclecloud.internal'
+datasource_jdbc_url_pdb2='jdbc:oracle:thin:@@database.instance.1@:1521/@database.instance.pdb2.1@.@identity.domain@.oraclecloud.internal'
+
+print 'Connect to nm...';
+print os.environ["DOMAIN_HOME"];
+
+nm_listener='@jcs.instance@-wls-1'
+adminserver='@jcs.instance@'
+cluster_name='@jcs.instance@_cluster'
+#adminserver's name created from the first 8 char + '_adminserver' suffix
+adminserver = adminserver[0:8] + '_adminserver'
+managedserver= adminserver[0:8] + '_server_1'
+
+print 'Calculated adminserver name: ' + adminserver;
+
+
+#---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+connect('@weblogic.admin.user@','@weblogic.admin.pass@','t3://@jcs.instance@-wls-1.compute-@identity.domain@.oraclecloud.internal:7001')
+
+# Adding user to default security realm
+print "************************Adding Administrator user in default security realm ****************************"
+serverConfig()
+cd('/')
+realm=cmo.getSecurityConfiguration().getDefaultRealm()
+atnr=realm.lookupAuthenticationProvider('DefaultAuthenticator')
+atnr.createUser('administrator','administrator123','Medrec Admin')
+
+edit()
+# Creating Virtual Target and Domain partition dp1
+print "************************ Creating Virtual target VT-Medrec-1 for dp1  ****************************"
+startEdit()
+cd('/')
+cmo.createVirtualTarget('VT-Medrec-1')
+cd('/VirtualTargets/VT-Medrec-1')
+cmo.setHostNames(array(["@jcs.ip@"],java.lang.String))
+cmo.setUriPrefix('/dp1')
+set('Targets',jarray.array([ObjectName('com.bea:Name='+cluster_name+',Type=Cluster')], ObjectName))
+activate()
+
+print "************************ Creating domain partition dp1 in @jcs.instance@_domain ****************************"
+startEdit()
+cd('/')
+cmo.createPartition('dp1')
+cd('/Partitions/dp1/SystemFileSystem/dp1')
+cmo.setRoot('/u01/data/domains/@jcs.instance@_domain/partitions/dp1/system')
+cmo.setCreateOnDemand(true)
+cmo.setPreserved(true)
+cd('/Partitions/dp1')
+set('AvailableTargets',jarray.array([ObjectName('com.bea:Name=VT-Medrec-1,Type=VirtualTarget')], ObjectName))
+set('DefaultTargets',jarray.array([ObjectName('com.bea:Name=VT-Medrec-1,Type=VirtualTarget')], ObjectName))
+activate()
+
+print "************************ Creating Resource Group app1RG in dp1 partition ****************************"
+startEdit()
+cmo.createResourceGroup('app1RG')
+cd('/Partitions/dp1/ResourceGroups/app1RG')
+cmo.setUseDefaultTarget(false)
+set('Targets',jarray.array([ObjectName('com.bea:Name=VT-Medrec-1,Type=VirtualTarget')], ObjectName))
+activate()
+
+print "************************ Creating JDBC datasource in app1RG resource group ****************************"
+startEdit()
+cd('/Partitions/dp1/ResourceGroups/app1RG')
+cmo.createJDBCSystemResource('MedRec1GlobalDataSourceXA')
+cd('/Partitions/dp1/ResourceGroups/app1RG/JDBCSystemResources/MedRec1GlobalDataSourceXA/JDBCResource/MedRec1GlobalDataSourceXA')
+cmo.setName('MedRec1GlobalDataSourceXA')
+cd('/Partitions/dp1/ResourceGroups/app1RG/JDBCSystemResources/MedRec1GlobalDataSourceXA/JDBCResource/MedRec1GlobalDataSourceXA/JDBCDataSourceParams/MedRec1GlobalDataSourceXA')
+set('JNDINames',jarray.array([String('jdbc/MedRecGlobalDataSourceXA')], String))
+cd('/Partitions/dp1/ResourceGroups/app1RG/JDBCSystemResources/MedRec1GlobalDataSourceXA/JDBCResource/MedRec1GlobalDataSourceXA')
+cmo.setDatasourceType('GENERIC')
+cd('/Partitions/dp1/ResourceGroups/app1RG/JDBCSystemResources/MedRec1GlobalDataSourceXA/JDBCResource/MedRec1GlobalDataSourceXA/JDBCDriverParams/MedRec1GlobalDataSourceXA')
+cmo.setUrl(datasource_jdbc_url_pdb1)
+cmo.setDriverName('oracle.jdbc.xa.client.OracleXADataSource')
+cmo.setPassword('medrec1')
+cd('/Partitions/dp1/ResourceGroups/app1RG/JDBCSystemResources/MedRec1GlobalDataSourceXA/JDBCResource/MedRec1GlobalDataSourceXA/JDBCConnectionPoolParams/MedRec1GlobalDataSourceXA')
+cmo.setTestTableName('SQL ISVALID\r\n\r\n')
+cd('/Partitions/dp1/ResourceGroups/app1RG/JDBCSystemResources/MedRec1GlobalDataSourceXA/JDBCResource/MedRec1GlobalDataSourceXA/JDBCDriverParams/MedRec1GlobalDataSourceXA/Properties/MedRec1GlobalDataSourceXA')
+cmo.createProperty('user')
+cd('/Partitions/dp1/ResourceGroups/app1RG/JDBCSystemResources/MedRec1GlobalDataSourceXA/JDBCResource/MedRec1GlobalDataSourceXA/JDBCDriverParams/MedRec1GlobalDataSourceXA/Properties/MedRec1GlobalDataSourceXA/Properties/user')
+cmo.setValue('medrec1')
+cd('/Partitions/dp1/ResourceGroups/app1RG/JDBCSystemResources/MedRec1GlobalDataSourceXA/JDBCResource/MedRec1GlobalDataSourceXA/JDBCDataSourceParams/MedRec1GlobalDataSourceXA')
+cmo.setGlobalTransactionsProtocol('TwoPhaseCommit')
+activate()
+
+print "************************ Creating Mail Session in app1RG resource group ****************************"
+startEdit()
+cd('/Partitions/dp1/ResourceGroups/app1RG')
+cmo.createMailSession('MedRec1MailSession')
+cd('/Partitions/dp1/ResourceGroups/app1RG/MailSessions/MedRec1MailSession')
+cmo.setJNDIName('mail/MedRecMailSession')
+activate()
+
+print "************************ Creating file-store in app1RG resource group ****************************"
+startEdit()
+cd('/Partitions/dp1/ResourceGroups/app1RG')
+cmo.createFileStore('MedRec1-fs')
+activate()
+
+print "************************ Creating JMS Server in app1RG resource group  ****************************"
+startEdit()
+cd('/Partitions/dp1/ResourceGroups/app1RG')
+cmo.createJMSServer('MedRec1JMSServer')
+cd('/Partitions/dp1/ResourceGroups/app1RG/JMSServers/MedRec1JMSServer')
+cmo.setPersistentStore(getMBean('/Partitions/dp1/ResourceGroups/app1RG/FileStores/MedRec1-fs'))
+activate()
+
+print "************************ Creating JMS Module in app1RG resource group ****************************"
+startEdit()
+cd('/Partitions/dp1/ResourceGroups/app1RG')
+cmo.createJMSSystemResource('MedRecModule')
+activate()
+
+print "************************ Creating Subdeployment in app1RG resource group ****************************"
+startEdit()
+cd('/Partitions/dp1/ResourceGroups/app1RG/JMSSystemResources/MedRecModule')
+cmo.createSubDeployment('MedRec1JMS ')
+cd('/Partitions/dp1/ResourceGroups/app1RG/JMSSystemResources/MedRecModule/SubDeployments/MedRec1JMS')
+set('Targets',jarray.array([ObjectName('com.bea:Name=MedRec1JMSServer,Type=JMSServer,Partition=dp1,ResourceGroup=app1RG')], ObjectName))
+activate()
+
+print "************************ Creating connection factory in app1RG resource group ****************************"
+startEdit()
+cd('/Partitions/dp1/ResourceGroups/app1RG/JMSSystemResources/MedRecModule/JMSResource/MedRecModule')
+cmo.createConnectionFactory('MedRec1ConnectionFactory')
+cd('/Partitions/dp1/ResourceGroups/app1RG/JMSSystemResources/MedRecModule/JMSResource/MedRecModule/ConnectionFactories/MedRec1ConnectionFactory')
+cmo.setJNDIName('com.oracle.medrec.jms.connectionFactory')
+cd('/Partitions/dp1/ResourceGroups/app1RG/JMSSystemResources/MedRecModule/JMSResource/MedRecModule/ConnectionFactories/MedRec1ConnectionFactory/SecurityParams/MedRec1ConnectionFactory')
+cmo.setAttachJMSXUserId(false)
+cd('/Partitions/dp1/ResourceGroups/app1RG/JMSSystemResources/MedRecModule/JMSResource/MedRecModule/ConnectionFactories/MedRec1ConnectionFactory/ClientParams/MedRec1ConnectionFactory')
+cmo.setClientIdPolicy('Restricted')
+cmo.setSubscriptionSharingPolicy('Exclusive')
+cmo.setMessagesMaximum(10)
+cd('/Partitions/dp1/ResourceGroups/app1RG/JMSSystemResources/MedRecModule/JMSResource/MedRecModule/ConnectionFactories/MedRec1ConnectionFactory/TransactionParams/MedRec1ConnectionFactory')
+cmo.setXAConnectionFactoryEnabled(true)
+cd('/Partitions/dp1/ResourceGroups/app1RG/JMSSystemResources/MedRecModule/JMSResource/MedRecModule/ConnectionFactories/MedRec1ConnectionFactory')
+cmo.setDefaultTargetingEnabled(true)
+activate()
+
+print "************************ Creating Distributed uniform JMS Queue in app1RG resource group  ****************************"
+startEdit()
+cd('/Partitions/dp1/ResourceGroups/app1RG/JMSSystemResources/MedRecModule/JMSResource/MedRecModule')
+cmo.createUniformDistributedQueue('PatientNotificationQueue')
+cd('/Partitions/dp1/ResourceGroups/app1RG/JMSSystemResources/MedRecModule/JMSResource/MedRecModule/UniformDistributedQueues/PatientNotificationQueue')
+cmo.setJNDIName('com.oracle.medrec.jms.PatientNotificationQueue')
+cd('/Partitions/dp1/ResourceGroups/app1RG/JMSSystemResources/MedRecModule/SubDeployments/MedRec1JMS')
+set('Targets',jarray.array([ObjectName('com.bea:Name=MedRec1JMSServer,Type=JMSServer,Partition=dp1,ResourceGroup=app1RG')], ObjectName))
+cd('/Partitions/dp1/ResourceGroups/app1RG/JMSSystemResources/MedRecModule/JMSResource/MedRecModule/UniformDistributedQueues/PatientNotificationQueue')
+cmo.setSubDeploymentName('MedRec1JMS')
+activate()
+
+disconnect()
+
+nmConnect('@weblogic.admin.user@', '@weblogic.admin.pass@', nm_listener.lower(), '6555', '@jcs.instance@_domain',os.environ["DOMAIN_HOME"],'ssl')
+print adminserver + ' status...' + nmServerStatus(adminserver);
+nmKill(managedserver)
+nmKill(adminserver)
+nmStart(adminserver)
+nmStart(managedserver)
+nmDisconnect()
+
+connect('@weblogic.admin.user@','@weblogic.admin.pass@','t3://@jcs.instance@-wls-1.compute-@identity.domain@.oraclecloud.internal:7001')
+
+
+edit()
+print "************************ Deploying medrec applications in app1RG resource group ****************************"
+startEdit()
+deploy(appName='medrec', partition='dp1', resourceGroup='app1RG', path='/tmp/medrec.ear')
+deploy(appName='physician', partition='dp1', resourceGroup='app1RG', path='/tmp/physician.ear')
+deploy(appName='chat', partition='dp1', resourceGroup='app1RG', path='/tmp/chat.war')
+activate()
+
+print "************************ Starting domain partition dp1 ****************************"
+startEdit()
+cd('/')
+partitionBean=cmo.lookupPartition('dp1')
+startPartitionWait(partitionBean)
+activate()
+
+#Medrec in Domain Partition dp2
+print "************************ Creating Virtual Target for domain partition dp2 ****************************"
+startEdit()
+cd('/')
+cmo.createVirtualTarget('VT-Medrec-2')
+cd('/VirtualTargets/VT-Medrec-2')
+cmo.setHostNames(array(["@jcs.ip@"],java.lang.String))
+cmo.setUriPrefix('/dp2')
+set('Targets',jarray.array([ObjectName('com.bea:Name='+cluster_name+',Type=Cluster')], ObjectName))
+activate()
+
+print "************************ Creating Domain Partition dp2 in @jcs.instance@_domain ****************************"
+startEdit()
+cd('/')
+cmo.createPartition('dp2')
+cd('/Partitions/dp2/SystemFileSystem/dp2')
+cmo.setRoot('/u01/data/domains/@jcs.instance@_domain/partitions/dp2/system')
+cmo.setCreateOnDemand(true)
+cmo.setPreserved(true)
+cd('/Partitions/dp2')
+set('AvailableTargets',jarray.array([ObjectName('com.bea:Name=VT-Medrec-2,Type=VirtualTarget')], ObjectName))
+set('DefaultTargets',jarray.array([ObjectName('com.bea:Name=VT-Medrec-2,Type=VirtualTarget')], ObjectName))
+activate()
+
+print "************************ Creating app2RG resource group in dp2 ****************************"
+startEdit()
+cmo.createResourceGroup('app2RG')
+cd('/Partitions/dp2/ResourceGroups/app2RG')
+cmo.setUseDefaultTarget(false)
+set('Targets',jarray.array([ObjectName('com.bea:Name=VT-Medrec-2,Type=VirtualTarget')], ObjectName))
+activate()
+
+print "************************ Creating JDBC datasource in app2RG resource group  ****************************"
+startEdit()
+cd('/Partitions/dp2/ResourceGroups/app2RG')
+cmo.createJDBCSystemResource('MedRec2GlobalDataSourceXA')
+cd('/Partitions/dp2/ResourceGroups/app2RG/JDBCSystemResources/MedRec2GlobalDataSourceXA/JDBCResource/MedRec2GlobalDataSourceXA')
+cmo.setName('MedRec2GlobalDataSourceXA')
+cd('/Partitions/dp2/ResourceGroups/app2RG/JDBCSystemResources/MedRec2GlobalDataSourceXA/JDBCResource/MedRec2GlobalDataSourceXA/JDBCDataSourceParams/MedRec2GlobalDataSourceXA')
+set('JNDINames',jarray.array([String('jdbc/MedRecGlobalDataSourceXA')], String))
+cd('/Partitions/dp2/ResourceGroups/app2RG/JDBCSystemResources/MedRec2GlobalDataSourceXA/JDBCResource/MedRec2GlobalDataSourceXA')
+cmo.setDatasourceType('GENERIC')
+cd('/Partitions/dp2/ResourceGroups/app2RG/JDBCSystemResources/MedRec2GlobalDataSourceXA/JDBCResource/MedRec2GlobalDataSourceXA/JDBCDriverParams/MedRec2GlobalDataSourceXA')
+cmo.setUrl(datasource_jdbc_url_pdb2)
+cmo.setDriverName('oracle.jdbc.xa.client.OracleXADataSource')
+cmo.setPassword('medrec2')
+cd('/Partitions/dp2/ResourceGroups/app2RG/JDBCSystemResources/MedRec2GlobalDataSourceXA/JDBCResource/MedRec2GlobalDataSourceXA/JDBCConnectionPoolParams/MedRec2GlobalDataSourceXA')
+cmo.setTestTableName('SQL ISVALID\r\n\r\n')
+cd('/Partitions/dp2/ResourceGroups/app2RG/JDBCSystemResources/MedRec2GlobalDataSourceXA/JDBCResource/MedRec2GlobalDataSourceXA/JDBCDriverParams/MedRec2GlobalDataSourceXA/Properties/MedRec2GlobalDataSourceXA')
+cmo.createProperty('user')
+cd('/Partitions/dp2/ResourceGroups/app2RG/JDBCSystemResources/MedRec2GlobalDataSourceXA/JDBCResource/MedRec2GlobalDataSourceXA/JDBCDriverParams/MedRec2GlobalDataSourceXA/Properties/MedRec2GlobalDataSourceXA/Properties/user')
+cmo.setValue('medrec2')
+cd('/Partitions/dp2/ResourceGroups/app2RG/JDBCSystemResources/MedRec2GlobalDataSourceXA/JDBCResource/MedRec2GlobalDataSourceXA/JDBCDataSourceParams/MedRec2GlobalDataSourceXA')
+cmo.setGlobalTransactionsProtocol('TwoPhaseCommit')
+activate()
+
+print "************************ Creating Mail Session in app2RG resource group ****************************"
+startEdit()
+cd('/Partitions/dp2/ResourceGroups/app2RG')
+cmo.createMailSession('MedRec2MailSession')
+cd('/Partitions/dp2/ResourceGroups/app2RG/MailSessions/MedRec2MailSession')
+cmo.setJNDIName('mail/MedRecMailSession')
+activate()
+
+print "************************ Creating File Store in app2RG resource group ****************************"
+startEdit()
+cd('/Partitions/dp2/ResourceGroups/app2RG')
+cmo.createFileStore('MedRec2-fs')
+activate()
+
+print "************************ Creating JMS Server in app2RG resource group ****************************"
+startEdit()
+cd('/Partitions/dp2/ResourceGroups/app2RG')
+cmo.createJMSServer('MedRec2JMSServer')
+cd('/Partitions/dp2/ResourceGroups/app2RG/JMSServers/MedRec2JMSServer')
+cmo.setPersistentStore(getMBean('/Partitions/dp2/ResourceGroups/app2RG/FileStores/MedRec2-fs'))
+activate()
+
+print "************************ Creating JMS Module in app2Rg resource group ****************************"
+startEdit()
+cd('/Partitions/dp2/ResourceGroups/app2RG')
+cmo.createJMSSystemResource('MedRecModule')
+activate()
+
+print "************************ Creating Subdeployment in app2RG resource group ****************************"
+startEdit()
+cd('/Partitions/dp2/ResourceGroups/app2RG/JMSSystemResources/MedRecModule')
+cmo.createSubDeployment('MedRec2JMS ')
+cd('/Partitions/dp2/ResourceGroups/app2RG/JMSSystemResources/MedRecModule/SubDeployments/MedRec2JMS')
+set('Targets',jarray.array([ObjectName('com.bea:Name=MedRec2JMSServer,Type=JMSServer,Partition=dp2,ResourceGroup=app2RG')], ObjectName))
+activate()
+
+print "************************ Creating Connection Factory in app2RG resource group ****************************"
+startEdit()
+cd('/Partitions/dp2/ResourceGroups/app2RG/JMSSystemResources/MedRecModule/JMSResource/MedRecModule')
+cmo.createConnectionFactory('MedRec2ConnectionFactory')
+cd('/Partitions/dp2/ResourceGroups/app2RG/JMSSystemResources/MedRecModule/JMSResource/MedRecModule/ConnectionFactories/MedRec2ConnectionFactory')
+cmo.setJNDIName('com.oracle.medrec.jms.connectionFactory')
+cd('/Partitions/dp2/ResourceGroups/app2RG/JMSSystemResources/MedRecModule/JMSResource/MedRecModule/ConnectionFactories/MedRec2ConnectionFactory/SecurityParams/MedRec2ConnectionFactory')
+cmo.setAttachJMSXUserId(false)
+cd('/Partitions/dp2/ResourceGroups/app2RG/JMSSystemResources/MedRecModule/JMSResource/MedRecModule/ConnectionFactories/MedRec2ConnectionFactory/ClientParams/MedRec2ConnectionFactory')
+cmo.setClientIdPolicy('Restricted')
+cmo.setSubscriptionSharingPolicy('Exclusive')
+cmo.setMessagesMaximum(10)
+cd('/Partitions/dp2/ResourceGroups/app2RG/JMSSystemResources/MedRecModule/JMSResource/MedRecModule/ConnectionFactories/MedRec2ConnectionFactory/TransactionParams/MedRec2ConnectionFactory')
+cmo.setXAConnectionFactoryEnabled(true)
+cd('/Partitions/dp2/ResourceGroups/app2RG/JMSSystemResources/MedRecModule/JMSResource/MedRecModule/ConnectionFactories/MedRec2ConnectionFactory')
+cmo.setDefaultTargetingEnabled(true)
+activate()
+
+print "************************ Creating Uniform Distributed JMS Queue in app2RG resource group  ****************************"
+startEdit()
+cd('/Partitions/dp2/ResourceGroups/app2RG/JMSSystemResources/MedRecModule/JMSResource/MedRecModule')
+cmo.createUniformDistributedQueue('PatientNotificationQueue')
+cd('/Partitions/dp2/ResourceGroups/app2RG/JMSSystemResources/MedRecModule/JMSResource/MedRecModule/UniformDistributedQueues/PatientNotificationQueue')
+cmo.setJNDIName('com.oracle.medrec.jms.PatientNotificationQueue')
+cd('/Partitions/dp2/ResourceGroups/app2RG/JMSSystemResources/MedRecModule/SubDeployments/MedRec2JMS')
+set('Targets',jarray.array([ObjectName('com.bea:Name=MedRec2JMSServer,Type=JMSServer,Partition=dp2,ResourceGroup=app2RG')], ObjectName))
+cd('/Partitions/dp2/ResourceGroups/app2RG/JMSSystemResources/MedRecModule/JMSResource/MedRecModule/UniformDistributedQueues/PatientNotificationQueue')
+cmo.setSubDeploymentName('MedRec2JMS')
+activate()
+
+print "************************ Deploy Medrec applications in app2RG resource group ****************************"
+startEdit()
+deploy(appName='medrec', partition='dp2', resourceGroup='app2RG', path='/tmp/medrec.ear')
+deploy(appName='physician', partition='dp2', resourceGroup='app2RG', path='/tmp/physician.ear')
+deploy(appName='chat', partition='dp2', resourceGroup='app2RG', path='/tmp/chat.war')
+activate()
+
+print "************************ Starting domain partition in dp2 ****************************"
+startEdit()
+cd('/')
+partitionBean=cmo.lookupPartition('dp2')
+startPartitionWait(partitionBean)
+activate()
+
+startEdit()
+cd('/')
+cmo.createVirtualTarget('VT-daytrader')
+cd('/VirtualTargets/VT-daytrader')
+cmo.setHostNames(array(["@jcs.ip@"],java.lang.String))
+cmo.setUriPrefix('/dp3')
+set('Targets',jarray.array([ObjectName('com.bea:Name='+cluster_name+',Type=Cluster')], ObjectName))
+activate()
+print "************************ Creating domain partition in dp3 ****************************"
+startEdit()
+cd('/')
+cmo.createPartition('dp3')
+cd('/Partitions/dp3/SystemFileSystem/dp3')
+cmo.setRoot('/u01/data/domains/@jcs.instance@_domain/partitions/dp3/system')
+cmo.setCreateOnDemand(true)
+cmo.setPreserved(true)
+cd('/Partitions/dp3')
+set('AvailableTargets',jarray.array([ObjectName('com.bea:Name=VT-daytrader,Type=VirtualTarget')], ObjectName))
+set('DefaultTargets',jarray.array([ObjectName('com.bea:Name=VT-daytrader,Type=VirtualTarget')], ObjectName))
+activate()
+
+print "************************ Creating resource group app3RG ****************************"
+startEdit()
+cmo.createResourceGroup('app3RG')
+cd('/Partitions/dp3/ResourceGroups/app3RG')
+cmo.setUseDefaultTarget(false)
+set('Targets',jarray.array([ObjectName('com.bea:Name=VT-daytrader,Type=VirtualTarget')], ObjectName))
+activate()
+
+print "************************ Creating JDBC datasources in app3RG resource group  ****************************"
+startEdit()
+cd('/Partitions/dp3/ResourceGroups/app3RG')
+cmo.createJDBCSystemResource('jdbc/datasources/TradeDataSource')
+cd('/Partitions/dp3/ResourceGroups/app3RG/JDBCSystemResources/jdbc/datasources/TradeDataSource/JDBCResource/jdbc/datasources/TradeDataSource')
+cmo.setName('jdbc/datasources/TradeDataSource')
+cd('/Partitions/dp3/ResourceGroups/app3RG/JDBCSystemResources/jdbc/datasources/TradeDataSource/JDBCResource/jdbc/datasources/TradeDataSource/JDBCDataSourceParams/jdbc/datasources/TradeDataSource')
+set('JNDINames',jarray.array([String('jdbc/datasources/TradeDataSource')], String))
+cd('/Partitions/dp3/ResourceGroups/app3RG/JDBCSystemResources/jdbc/datasources/TradeDataSource/JDBCResource/jdbc/datasources/TradeDataSource')
+cmo.setDatasourceType('GENERIC')
+cd('/Partitions/dp3/ResourceGroups/app3RG/JDBCSystemResources/jdbc/datasources/TradeDataSource/JDBCResource/jdbc/datasources/TradeDataSource/JDBCDriverParams/jdbc/datasources/TradeDataSource')
+cmo.setUrl(datasource_jdbc_url_pdb1)
+cmo.setDriverName('oracle.jdbc.OracleDriver')
+cmo.setPassword('trade')
+cd('/Partitions/dp3/ResourceGroups/app3RG/JDBCSystemResources/jdbc/datasources/TradeDataSource/JDBCResource/jdbc/datasources/TradeDataSource/JDBCConnectionPoolParams/jdbc/datasources/TradeDataSource')
+cmo.setTestTableName('SQL ISVALID\r\n\r\n')
+cd('/Partitions/dp3/ResourceGroups/app3RG/JDBCSystemResources/jdbc/datasources/TradeDataSource/JDBCResource/jdbc/datasources/TradeDataSource/JDBCDriverParams/jdbc/datasources/TradeDataSource/Properties/jdbc/datasources/TradeDataSource')
+cmo.createProperty('user')
+cd('/Partitions/dp3/ResourceGroups/app3RG/JDBCSystemResources/jdbc/datasources/TradeDataSource/JDBCResource/jdbc/datasources/TradeDataSource/JDBCDriverParams/jdbc/datasources/TradeDataSource/Properties/jdbc/datasources/TradeDataSource/Properties/user')
+cmo.setValue('trade')
+cd('/Partitions/dp3/ResourceGroups/app3RG/JDBCSystemResources/jdbc/datasources/TradeDataSource/JDBCResource/jdbc/datasources/TradeDataSource/JDBCDataSourceParams/jdbc/datasources/TradeDataSource')
+cmo.setGlobalTransactionsProtocol('EmulateTwoPhaseCommit')
+activate()
+
+startEdit()
+cd('/Partitions/dp3/ResourceGroups/app3RG')
+cmo.createJDBCSystemResource('jdbc/datasources/NoTxTradeDataSource')
+cd('/Partitions/dp3/ResourceGroups/app3RG/JDBCSystemResources/jdbc/datasources/NoTxTradeDataSource/JDBCResource/jdbc/datasources/NoTxTradeDataSource')
+cmo.setName('jdbc/datasources/NoTxTradeDataSource')
+cd('/Partitions/dp3/ResourceGroups/app3RG/JDBCSystemResources/jdbc/datasources/NoTxTradeDataSource/JDBCResource/jdbc/datasources/NoTxTradeDataSource/JDBCDataSourceParams/jdbc/datasources/NoTxTradeDataSource')
+set('JNDINames',jarray.array([String('jdbc/datasources/NoTxTradeDataSource')], String))
+cd('/Partitions/dp3/ResourceGroups/app3RG/JDBCSystemResources/jdbc/datasources/NoTxTradeDataSource/JDBCResource/jdbc/datasources/NoTxTradeDataSource')
+cmo.setDatasourceType('GENERIC')
+cd('/Partitions/dp3/ResourceGroups/app3RG/JDBCSystemResources/jdbc/datasources/NoTxTradeDataSource/JDBCResource/jdbc/datasources/NoTxTradeDataSource/JDBCDriverParams/jdbc/datasources/NoTxTradeDataSource')
+cmo.setUrl(datasource_jdbc_url_pdb1)
+cmo.setDriverName('oracle.jdbc.OracleDriver')
+cmo.setPassword('trade')
+cd('/Partitions/dp3/ResourceGroups/app3RG/JDBCSystemResources/jdbc/datasources/NoTxTradeDataSource/JDBCResource/jdbc/datasources/NoTxTradeDataSource/JDBCConnectionPoolParams/jdbc/datasources/NoTxTradeDataSource')
+cmo.setTestTableName('SQL ISVALID\r\n\r\n')
+cd('/Partitions/dp3/ResourceGroups/app3RG/JDBCSystemResources/jdbc/datasources/NoTxTradeDataSource/JDBCResource/jdbc/datasources/NoTxTradeDataSource/JDBCDriverParams/jdbc/datasources/NoTxTradeDataSource/Properties/jdbc/datasources/NoTxTradeDataSource')
+cmo.createProperty('user')
+cd('/Partitions/dp3/ResourceGroups/app3RG/JDBCSystemResources/jdbc/datasources/NoTxTradeDataSource/JDBCResource/jdbc/datasources/NoTxTradeDataSource/JDBCDriverParams/jdbc/datasources/NoTxTradeDataSource/Properties/jdbc/datasources/NoTxTradeDataSource/Properties/user')
+cmo.setValue('trade')
+cd('/Partitions/dp3/ResourceGroups/app3RG/JDBCSystemResources/jdbc/datasources/NoTxTradeDataSource/JDBCResource/jdbc/datasources/NoTxTradeDataSource/JDBCDataSourceParams/jdbc/datasources/NoTxTradeDataSource')
+cmo.setGlobalTransactionsProtocol('EmulateTwoPhaseCommit')
+activate()
+
+print "************************ Creating File Store in app3RG resource group  ****************************"
+startEdit()
+cd('/Partitions/dp3/ResourceGroups/app3RG')
+cmo.createFileStore('MyFileStore')
+activate()
+
+print "************************ Creating JMS Server in app3RG resource group ****************************"
+startEdit()
+cd('/Partitions/dp3/ResourceGroups/app3RG')
+cmo.createJMSServer('MyJMSServer')
+cd('/Partitions/dp3/ResourceGroups/app3RG/JMSServers/MyJMSServer')
+cmo.setPersistentStore(getMBean('/Partitions/dp3/ResourceGroups/app3RG/FileStores/MyFileStore'))
+activate()
+
+print "************************ Creating  JMS Module in app3RG resource group ****************************"
+startEdit()
+cd('/Partitions/dp3/ResourceGroups/app3RG')
+cmo.createJMSSystemResource('MyJMSModule ')
+activate()
+
+print "************************ Creating Subdeployment in app3RG resource group  ****************************"
+startEdit()
+cd('/Partitions/dp3/ResourceGroups/app3RG/JMSSystemResources/MyJMSModule')
+cmo.createSubDeployment('MySubdeployment ')
+cd('/Partitions/dp3/ResourceGroups/app3RG/JMSSystemResources/MyJMSModule/SubDeployments/MySubdeployment')
+set('Targets',jarray.array([ObjectName('com.bea:Name=MyJMSServer,Type=JMSServer,Partition=dp3,ResourceGroup=app3RG')], ObjectName))
+activate()
+
+print "************************ Creating Connection factory in app3RG resource group ****************************"
+startEdit()
+cd('/Partitions/dp3/ResourceGroups/app3RG/JMSSystemResources/MyJMSModule/JMSResource/MyJMSModule')
+cmo.createConnectionFactory('jms/myQueueConnectionFactory ')
+cd('/Partitions/dp3/ResourceGroups/app3RG/JMSSystemResources/MyJMSModule/JMSResource/MyJMSModule/ConnectionFactories/jms/myQueueConnectionFactory')
+cmo.setJNDIName('jms/myQueueConnectionFactory ')
+cd('/Partitions/dp3/ResourceGroups/app3RG/JMSSystemResources/MyJMSModule/JMSResource/MyJMSModule/ConnectionFactories/jms/myQueueConnectionFactory/SecurityParams/jms/myQueueConnectionFactory')
+cmo.setAttachJMSXUserId(false)
+cd('/Partitions/dp3/ResourceGroups/app3RG/JMSSystemResources/MyJMSModule/JMSResource/MyJMSModule/ConnectionFactories/jms/myQueueConnectionFactory/ClientParams/jms/myQueueConnectionFactory')
+cmo.setClientIdPolicy('Restricted')
+cmo.setSubscriptionSharingPolicy('Exclusive')
+cmo.setMessagesMaximum(10)
+cd('/Partitions/dp3/ResourceGroups/app3RG/JMSSystemResources/MyJMSModule/JMSResource/MyJMSModule/ConnectionFactories/jms/myQueueConnectionFactory/TransactionParams/jms/myQueueConnectionFactory')
+cmo.setXAConnectionFactoryEnabled(true)
+cd('/Partitions/dp3/ResourceGroups/app3RG/JMSSystemResources/MyJMSModule/JMSResource/MyJMSModule/ConnectionFactories/jms/myQueueConnectionFactory')
+cmo.setDefaultTargetingEnabled(true)
+activate()
+
+startEdit()
+cd('/Partitions/dp3/ResourceGroups/app3RG/JMSSystemResources/MyJMSModule/JMSResource/MyJMSModule')
+cmo.createConnectionFactory('jms/myTopicConnectionFactory')
+cd('/Partitions/dp3/ResourceGroups/app3RG/JMSSystemResources/MyJMSModule/JMSResource/MyJMSModule/ConnectionFactories/jms/myTopicConnectionFactory')
+cmo.setJNDIName('jms/myTopicConnectionFactory')
+cd('/Partitions/dp3/ResourceGroups/app3RG/JMSSystemResources/MyJMSModule/JMSResource/MyJMSModule/ConnectionFactories/jms/myTopicConnectionFactory/SecurityParams/jms/myTopicConnectionFactory')
+cmo.setAttachJMSXUserId(false)
+cd('/Partitions/dp3/ResourceGroups/app3RG/JMSSystemResources/MyJMSModule/JMSResource/MyJMSModule/ConnectionFactories/jms/myTopicConnectionFactory/ClientParams/jms/myTopicConnectionFactory')
+cmo.setClientIdPolicy('Restricted')
+cmo.setSubscriptionSharingPolicy('Exclusive')
+cmo.setMessagesMaximum(10)
+cd('/Partitions/dp3/ResourceGroups/app3RG/JMSSystemResources/MyJMSModule/JMSResource/MyJMSModule/ConnectionFactories/jms/myTopicConnectionFactory/TransactionParams/jms/myTopicConnectionFactory')
+cmo.setXAConnectionFactoryEnabled(true)
+cd('/Partitions/dp3/ResourceGroups/app3RG/JMSSystemResources/MyJMSModule/JMSResource/MyJMSModule/ConnectionFactories/jms/myQueueConnectionFactory')
+cmo.setDefaultTargetingEnabled(true)
+activate()
+
+print "************************ Creating Uniform Distributed JMS Queue in app3RG ****************************"
+startEdit()
+cd('/Partitions/dp3/ResourceGroups/app3RG/JMSSystemResources/MyJMSModule/JMSResource/MyJMSModule')
+cmo.createUniformDistributedQueue('jms/TradeBrokerQueue')
+cd('/Partitions/dp3/ResourceGroups/app3RG/JMSSystemResources/MyJMSModule/JMSResource/MyJMSModule/UniformDistributedQueues/jms/TradeBrokerQueue')
+cmo.setJNDIName('jms/TradeBrokerQueue')
+cd('/Partitions/dp3/ResourceGroups/app3RG/JMSSystemResources/MyJMSModule/SubDeployments/MySubdeployment')
+set('Targets',jarray.array([ObjectName('com.bea:Name=MyJMSServer,Type=JMSServer,Partition=dp3,ResourceGroup=app3RG')], ObjectName))
+cd('/Partitions/dp3/ResourceGroups/app3RG/JMSSystemResources/MyJMSModule/JMSResource/MyJMSModule/UniformDistributedQueues/jms/TradeBrokerQueue')
+cmo.setSubDeploymentName('MySubdeployment')
+activate()
+
+startEdit()
+cd('/Partitions/dp3/ResourceGroups/app3RG/JMSSystemResources/MyJMSModule/JMSResource/MyJMSModule')
+cmo.createUniformDistributedTopic('jms/TradeStreamerTopic ')
+cd('/Partitions/dp3/ResourceGroups/app3RG/JMSSystemResources/MyJMSModule/JMSResource/MyJMSModule/UniformDistributedTopics/jms/TradeStreamerTopic')
+cmo.setJNDIName('jms/TradeStreamerTopic ')
+cmo.setForwardingPolicy('Partitioned')
+cd('/Partitions/dp3/ResourceGroups/app3RG/JMSSystemResources/MyJMSModule/SubDeployments/MySubdeployment')
+set('Targets',jarray.array([ObjectName('com.bea:Name=MyJMSServer,Type=JMSServer,Partition=dp3,ResourceGroup=app3RG')], ObjectName))
+cd('/Partitions/dp3/ResourceGroups/app3RG/JMSSystemResources/MyJMSModule/JMSResource/MyJMSModule/UniformDistributedTopics/jms/TradeStreamerTopic')
+cmo.setSubDeploymentName('MySubdeployment')
+activate()
+
+print "************************ Starting domain partition dp3 ****************************"
+
+startEdit()
+cd('/')
+partitionBean=cmo.lookupPartition('dp3')
+startPartitionWait(partitionBean)
+activate()
+
+print "************************ Deploying daytrader application in app3RG resource group ****************************"
+startEdit()
+deploy(appName='web', partition='dp3', resourceGroup='app3RG', path='/tmp/web-3.0.0.war')
+activate()
+
+disconnect()
+
+

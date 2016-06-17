@@ -7,7 +7,7 @@
   <groupId>com.oracle.weblogic.demo.wins</groupId>
   <artifactId>utility-applications</artifactId>
   <packaging>pom</packaging>
-  <version>12.1.2.0.0</version>
+  <version>12.1.3.0.0</version>
   <name>utility-applications</name>
 
   <!-- ==================================================================================== -->

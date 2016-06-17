@@ -1,0 +1,1 @@
+COMMAND java -Dlog4j.configuration=file:./cfg/log4j.properties -jar -Xms64m -Xmx512m dirjar/jagent.jar

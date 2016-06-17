@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project basedir="." default="build" name="CacheStoreDemo">
+    <property file="jdbc.properties"/>
+    <property environment="env"/>
+    <property name="debuglevel" value="source,lines,vars"/>
+    <property name="target" value="1.6"/>
+    <property name="source" value="1.6"/>
+    <property name="ORACLE_JDBC_LIB" value="${env.ORACLE_HOME}/jdbc/lib/ojdbc6.jar"/>
+    <property name="COHERENCE" value="${env.MW_HOME}/coherence/lib"/>
+    <property name="COMMON" value="${env.MW_HOME}/oracle_common"/>
+    <property name="MODULES" value="${COMMON}/modules"/>
+    <property name="TOPLINK" value="${MODULES}/oracle.toplink_12.1.3"/>
+
+    <property name="CoherenceSwingDemo.location" value="../CoherenceSwingDemo"/>
+    <path id="oracle.jdbc.class.path">
+        <pathelement location="${ORACLE_JDBC_LIB}"/>
+    </path>
+    <path id="CacheStoreDemo.classpath">
+        <pathelement location="bin"/>
+    	<!-- Log4j required: TopLink BUG -->
+    	<pathelement location="${env.GG_HOME}/ggjava/resources/lib/log4j-1.2.15.jar"/>
+        <pathelement location="lib/miglayout-4.0-swing.jar"/>
+        <pathelement location="${COHERENCE}/coherence.jar"/>
+        <pathelement location="${MODULES}/javax.persistence_2.0.0.0_2-0.jar"/>        				  
+        <pathelement location="${TOPLINK}/eclipselink.jar"/>
+        <pathelement location="${TOPLINK}/toplink-grid.jar"/>
+        <pathelement location="${ORACLE_JDBC_LIB}"/>
+    </path>
+    <target name="init">
+        <mkdir dir="bin"/>
+        <copy includeemptydirs="false" todir="bin">
+            <fileset dir="src">
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="clean">
+        <delete dir="bin"/>
+    </target>
+    <target depends="clean" name="cleanall">
+        <ant antfile="build.xml" dir="${CoherenceSwingDemo.location}" inheritAll="false" target="clean"/>
+    </target>
+    <target depends="build-project" name="build"/>
+    <target depends="init" name="build-project">
+        <echo message="${ant.project.name}: ${ant.file}"/>
+        <javac debug="true" debuglevel="${debuglevel}" destdir="bin" source="${source}" target="${target}" includeantruntime="false">
+            <src path="src"/>
+            <classpath refid="CacheStoreDemo.classpath"/>
+        </javac>
+    </target>
+    <target name="CreateDatabase" depends="build">
+        <java classname="cachestore.example.CreateDatabase" failonerror="true" fork="yes">
+            <classpath refid="CacheStoreDemo.classpath"/>
+        </java>
+    </target>
+	   <target name="Console" depends="build">
+	        <java classname="cachestore.example.Console" failonerror="true" fork="yes">
+	            <jvmarg line="-Dtangosol.coherence.distributed.localstorage=false -Dtangosol.coherence.cacheconfig=cs-coherence-cache-config.xml -Dtangosol.coherence.localhost=127.0.0.1 -Dtangosol.coherence.ttl=0 -Dtangosol.coherence.clusterport=4617"/>
+	            <classpath refid="CacheStoreDemo.classpath"/>
+	        </java>
+	    </target>
+	<target name="Monitor" depends="build">
+        <java classname="cachestore.ui.EmployeeMonitor" failonerror="true" fork="yes">
+            <jvmarg line="-Dtangosol.coherence.distributed.localstorage=false -Dtangosol.coherence.cacheconfig=cs-coherence-cache-config.xml -Dtangosol.coherence.localhost=127.0.0.1 -Dtangosol.coherence.ttl=0 -Dtangosol.coherence.clusterport=4617"/>
+            <classpath refid="CacheStoreDemo.classpath"/>
+        </java>
+    </target>
+    <target name="CacheServer" depends="build">
+        <java classname="com.tangosol.net.DefaultCacheServer" failonerror="true" fork="yes">
+            <jvmarg line="-Dtangosol.coherence.cacheconfig=cs-coherence-cache-config.xml -Dtangosol.coherence.localhost=127.0.0.1 -Dtangosol.coherence.ttl=0 -Dtangosol.coherence.clusterport=4617"/>
+            <classpath refid="CacheStoreDemo.classpath"/>
+        </java>
+    </target>
+    <target name="createusers">
+        <input message="Please enter the dba user [system]:" defaultvalue="system" addproperty="dba.user"/>
+        <input message="Please enter the dba password [oracle]" defaultvalue="oracle" addproperty="dba.password"/>
+        <sql driver="${jdbc.driver}" url="${jdbc.url}" userid="${dba.user}" password="${dba.password}"  classpath="CacheStoreDemo.classpath">
+        	CREATE USER csdemo IDENTIFIED BY csdemo;
+        	GRANT DBA TO csdemo;
+        	grant alter session to csdemo;
+        	grant create session to csdemo;
+        	grant flashback any table to csdemo;
+        	grant select any dictionary to csdemo;
+        	grant select any table to csdemo;
+        	grant select any transaction to csdemo;
+        	grant unlimited tablespace to csdemo;
+        	ALTER DATABASE ADD SUPPLEMENTAL LOG DATA;
+
+        	CREATE USER notcsdemo IDENTIFIED BY notcsdemo;
+        	GRANT DBA TO notcsdemo;
+        </sql>
+    </target>    
+
+</project>

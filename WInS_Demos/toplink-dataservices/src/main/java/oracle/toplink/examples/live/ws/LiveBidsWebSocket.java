@@ -20,7 +20,7 @@ import weblogic.websocket.annotation.WebSocket;
  * A Weblogic, websocket implementation that provides TopLink Live Data
  * notifications for the auction demo.
  * 
- * @since WebLogic 12.1.2
+ * @since WebLogic 12.1.3
  */
 @WebSocket(pathPatterns = "/auction/live-bids", timeout = 1000000)
 public class LiveBidsWebSocket extends WebSocketAdapter {

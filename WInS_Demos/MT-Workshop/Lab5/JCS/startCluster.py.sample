@@ -1,0 +1,9 @@
+cluster_name='@jcs.instance@_cluster'
+connect('@weblogic.admin.user@','@weblogic.admin.pass@','t3://@jcs.instance@-wls-1.compute-@identity.domain@.oraclecloud.internal:7001')
+edit()
+
+startEdit()
+start(cluster_name,'Cluster')
+activate()
+
+disconnect()

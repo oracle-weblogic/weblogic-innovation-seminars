@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="Basic Webapp"></h:outputText>
+        </ui:define>
+
+        <ui:define name="header">
+            <!--<div class="page-header">-->
+            <div>
+                <h2>Basic Webapp</h2>
+                <p class="lead">This project shows a basic example of a web application working with JSF and CDI to simulate the deposit functionality of bank system.</p>
+            </div>
+        </ui:define>
+
+        <ui:define name="body">
+            <div class="well">
+                <h:form styleClass="form">
+                    <legend>Please Enter Your Account Name and Amount</legend>
+                    <label>Account Name</label>
+
+                    <h:inputText id="name" value="#{accountBean.name}" required="true" requiredMessage="Please enter your Acount Name!" size="20"/>
+                    <h:message for="name" errorClass="alert-error" infoClass="alert-info"></h:message>
+
+                    <label>Amount</label>
+                    <h:inputText id="amount" value="#{accountBean.amount}" required="true" requiredMessage="Please enter the amount your want to deposit!" size="10"/>
+
+                    <h:message for="amount" errorClass="alert-error" infoClass="alert-info"></h:message>
+                    <br/>
+                    <h:outputText value="#{accountBean.msg}" styleClass="alert-success" escape="false"></h:outputText>
+
+                    <div class="form-actions">                        
+                        <span><h:commandButton value="Deposit" styleClass="btn btn-success" action="#{accountBean.deposit}" ></h:commandButton></span>                      
+                        <span><h:commandButton value="Reset" styleClass="btn btn-danger" type="reset"></h:commandButton></span>
+                    </div>
+
+                </h:form>
+            </div>
+        </ui:define>
+
+        <ui:define name="footer">   
+            <footer>
+                <p>&copy; Company 2012</p>
+            </footer>
+        </ui:define>
+    </ui:composition>
+</html>
+

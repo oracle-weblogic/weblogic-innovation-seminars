@@ -20,7 +20,7 @@ import org.eclipse.persistence.jpa.dynamic.JPADynamicHelper;
  * randomly.
  * </p>
  *
- * @version 12.1.2
+ * @version 12.1.3
  */
 public class AutoBidder {
 

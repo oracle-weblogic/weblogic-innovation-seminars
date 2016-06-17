@@ -1,4 +1,4 @@
-connect('weblogic','welcome1','t3://wins-vbox:9001')
+connect('weblogic','welcome1','t3://wins-vbox:7001')
 edit()
 startEdit()
 

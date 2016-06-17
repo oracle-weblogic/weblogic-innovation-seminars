@@ -1,0 +1,2 @@
+# /etc/sysconfig/docker-network
+DOCKER_NETWORK_OPTIONS="-H tcp://0.0.0.0:4243 -H unix:///var/run/docker.sock"

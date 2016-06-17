@@ -1,0 +1,57 @@
+-- ===========================================================================
+-- To setup:
+-- 1) optional: clean up any prior run
+--    ggsci> stop extract cs-cgga!
+--    ggsci> DBLOGIN USERID csdemo, PASSWORD csdemo
+--    ggsci> delete extract cs-cgga!
+--
+-- 2) before starting mgr, be sure the JVM is in the library path
+--    sh> echo $LD_LIBRARY_PATH
+--    sh> echo $PATH
+--    ggsci> stop mgr!
+--    ggsci> start mgr
+--    ggsci> info mgr
+--
+-- 3) add a data-pump extract, reading a trail, to load & run the user-exit:
+--    ggsci> add extract cs-cgga, extTrailSource dirdat/cs
+--    ggsci> info cs-cgga
+--
+-- 4) start processing
+--    #ggsci> start cs-cgga
+--    #sh> sleep 2
+--    #ggsci> send cs-cgga, report
+--    #ggsci> view report cs-cgga
+-- or from command line: extract PARAMFILE ./dirprm/cs-cgga.prm 
+-- ===========================================================================
+
+Extract cs-cgga
+USERID c##ggs_admin@orcl, PASSWORD welcome1
+
+SetEnv ( GGS_USEREXIT_CONF = "./dirprm/cs-cgga.properties" )
+--SetEnv ( GGS_JAVAUSEREXIT_CONF = "./dirprm/cs-cgga.properties" )
+
+-- (debug) print out library path
+GetEnv (LD_LIBRARY_PATH)
+GetEnv (PATH)
+GetEnv (JAVA_HOME)
+
+-- the user-exit library (unix/linux)
+CUserExit libggjava_ue.so CUSEREXIT PassThru IncludeUpdateBefores
+
+-- the user-exit library (windows)
+-- CUserExit ggjava_ue.dll CUSEREXIT PassThru IncludeUpdateBefores
+
+--  pass all trail data to user-exit (don't ignore/omit/filter data)
+GetUpdateBefores
+
+-- TcpSourceTimer (default=on) adjusts timestamps in replicated records for more 
+-- accurate lag calculation, if time differences between source/target
+NoTcpSourceTimer
+
+EOFDELAYCSECS 1
+
+SOURCEDEFS ./dirsql/csemployee.sql
+
+-- pass all data in trail to user-exit. Can wildcard tables, but not schema name
+SOURCECATALOG pdborcl
+TABLE csdemo.employee;

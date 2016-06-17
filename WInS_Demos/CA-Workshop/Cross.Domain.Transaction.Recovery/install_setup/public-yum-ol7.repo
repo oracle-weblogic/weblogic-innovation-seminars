@@ -1,0 +1,49 @@
+[ol7_latest]
+name=Oracle Linux $releasever Latest ($basearch)
+baseurl=http://public-yum.oracle.com/repo/OracleLinux/OL7/latest/$basearch/
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-oracle
+gpgcheck=1
+enabled=1
+
+[ol7_u0_base]
+name=Oracle Linux $releasever GA installation media copy ($basearch)
+baseurl=http://public-yum.oracle.com/repo/OracleLinux/OL7/0/base/$basearch/
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-oracle
+gpgcheck=1
+enabled=0
+
+[ol7_UEKR3]
+name=Latest Unbreakable Enterprise Kernel for Oracle Linux $releasever ($basearch)
+baseurl=http://public-yum.oracle.com/repo/OracleLinux/OL7/UEKR3/$basearch/
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-oracle
+gpgcheck=1
+enabled=1
+
+[ol7_optional_latest]
+name=Oracle Linux $releasever Optional Latest ($basearch)
+baseurl=http://public-yum.oracle.com/repo/OracleLinux/OL7/optional/latest/$basearch/
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-oracle
+gpgcheck=1
+enabled=0
+
+[ol7_addons]
+name=Oracle Linux $releasever Add ons ($basearch)
+baseurl=http://public-yum.oracle.com/repo/OracleLinux/OL7/addons/$basearch/
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-oracle
+gpgcheck=1
+enabled=1
+
+[ol7_MySQL56]
+name=MySQL 5.6 for Oracle Linux 7 ($basearch)
+baseurl=http://public-yum.oracle.com/repo/OracleLinux/OL7/MySQL56/$basearch/
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-oracle
+gpgcheck=1
+enabled=0
+
+[ol7_MySQL55]
+name=MySQL 5.5 for Oracle Linux 7 ($basearch)
+baseurl=http://public-yum.oracle.com/repo/OracleLinux/OL7/MySQL55/$basearch/
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-oracle
+gpgcheck=1
+enabled=0
+

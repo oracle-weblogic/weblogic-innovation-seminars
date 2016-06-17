@@ -1,0 +1,61 @@
+connect('@weblogic.admin.user@','@weblogic.admin.pass@','t3://@jcs.instance@-wls-1.compute-@identity.domain@.oraclecloud.internal:7001')
+edit()
+
+
+print "************************ Shuting down domain partition dp1 ****************************"
+startEdit()
+cd('/')
+partitionBeanDP1=cmo.lookupPartition('dp1')
+forceShutdownPartitionWait(partitionBeanDP1)
+activate()
+
+print "************************ Creating new security realm newrealm in @jcs.instance@_domain ****************************"
+startEdit()
+cd('/SecurityConfiguration/@jcs.instance@_domain')
+cmo.createRealm('mynewrealm')
+cd('/SecurityConfiguration/@jcs.instance@_domain/Realms/mynewrealm')
+cmo.setDeployCredentialMappingIgnored(true)
+cmo.createAuthenticationProvider('DefaultAuthenticator', 'weblogic.security.providers.authentication.DefaultAuthenticator')
+cmo.createAuthenticationProvider('DefaultIdentityAsserter', 'weblogic.security.providers.authentication.DefaultIdentityAsserter')
+cmo.createAuthorizer('XACMLAuthorizer', 'weblogic.security.providers.xacml.authorization.XACMLAuthorizer')
+cmo.createRoleMapper('XACMLRoleMapper', 'weblogic.security.providers.xacml.authorization.XACMLRoleMapper')
+cmo.createAdjudicator('DefaultAdjudicator', 'weblogic.security.providers.authorization.DefaultAdjudicator')
+cmo.createCredentialMapper('DefaultCredentialMapper', 'weblogic.security.providers.credentials.DefaultCredentialMapper')
+cmo.createCertPathProvider('WebLogicCertPathProvider', 'weblogic.security.providers.pk.WebLogicCertPathProvider')
+cmo.setCertPathBuilder(getMBean('/SecurityConfiguration/@jcs.instance@_domain/Realms/mynewrealm/CertPathProviders/WebLogicCertPathProvider'))
+cmo.createPasswordValidator('SystemPasswordValidator', 'com.bea.security.providers.authentication.passwordvalidator.SystemPasswordValidator')
+cd('/SecurityConfiguration/@jcs.instance@_domain/Realms/mynewrealm/PasswordValidators/SystemPasswordValidator')
+cmo.setMinPasswordLength(8)
+cmo.setMinNumericOrSpecialCharacters(1)
+activate()
+
+
+#Assiging newrealm to domain partition dp1
+print "************************ Assigning newrealm to domain partition dp1 ****************************"
+startEdit()
+cd('/Partitions/dp1')
+set('DefaultTargets',jarray.array([ObjectName('com.bea:Name=VT-Medrec-1,Type=VirtualTarget')], ObjectName))
+cmo.setRealm(getMBean('/SecurityConfiguration/@jcs.instance@_domain/Realms/mynewrealm'))
+cmo.setDataSourceForJobScheduler(None)
+cmo.setPrimaryIdentityDomain('idd_dp1')
+cmo.setJobSchedulerTableName('WEBLOGIC_TIMERS')
+activate()
+
+#Starting domain parttion dp1
+print "************************ Starting domain partition dp1 ****************************"
+startEdit()
+cd('/')
+partitionBean=cmo.lookupPartition('dp1')
+startPartitionWait(partitionBean)
+activate()
+
+disconnect()
+
+
+connect('@weblogic.admin.user@','@weblogic.admin.pass@','t3://@jcs.instance@-wls-1.compute-@identity.domain@.oraclecloud.internal:7001')
+print "************************ Adding Administrator user in newrealm security realm ****************************"
+cd('/SecurityConfiguration/@jcs.instance@_domain/Realms/mynewrealm/AuthenticationProviders/DefaultAuthenticator/')
+cmo.createUser('administrator','welcome1','Medrec in DP1')
+
+disconnect()
+

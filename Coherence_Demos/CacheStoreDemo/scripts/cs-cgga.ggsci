@@ -1,0 +1,9 @@
+start mgr
+--delete previously created java adapter
+STOP EXTRACT cs-cgga
+DELETE EXTRACT cs-cgga
+
+DBLOGIN USERID c##ggs_admin@orcl, PASSWORD welcome1
+ADD EXTRACT cs-cgga, PARAMS ./dirprm/cs-cgga.prm, extTrailSource ./dirdat/cs
+INFO cs-cgga
+-- start cs-cgga

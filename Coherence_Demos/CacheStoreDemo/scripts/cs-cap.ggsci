@@ -1,0 +1,19 @@
+start mgr
+--delete previously created extract
+STOP EXTRACT cscap
+DELETE EXTRACT cscap
+
+DBLOGIN USERID c##ggs_admin@orcl, PASSWORD welcome1
+DELETE TRANDATA pdborcl.csdemo.employee
+
+UNREGISTER EXTRACT cscap DATABASE
+
+ADD TRANDATA pdborcl.csdemo.employee
+ADD EXTRACT cscap, INTEGRATED TRANLOG, PARAMS ./dirprm/cscap.prm, begin now
+ADD EXTTRAIL ./dirdat/cs, EXTRACT cscap
+
+REGISTER EXTRACT cscap DATABASE CONTAINER (pdborcl)
+
+INFO cscap
+SHELL rm -f ./dirdat/cs*.*
+-- start cs-cap

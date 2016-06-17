@@ -15,7 +15,7 @@
   <parent>
     <groupId>com.oracle.weblogic.demo.wins</groupId>
     <artifactId>common</artifactId>
-    <version>12.1.2.0.0</version>
+    <version>12.1.3.0.0</version>
     <relativePath>../common/pom.xml</relativePath>
   </parent>
 
@@ -27,6 +27,48 @@
 
   <profiles>
     <profile>
+      <id>create-domain</id>
+
+      <activation>
+        <activeByDefault>false</activeByDefault>
+      </activation>
+
+      <build>
+        <defaultGoal>install</defaultGoal>
+        <plugins>
+
+          <plugin>
+            <groupId>com.oracle.weblogic</groupId>
+            <artifactId>weblogic-maven-plugin</artifactId>
+           <configuration>
+              <user>weblogic</user>
+              <password>welcome1</password>
+              <name>${project.build.finalName}</name>
+            </configuration>
+            <executions>
+		      <execution>
+		        <id>create-mydomain</id>
+		        <phase>install</phase>
+		        <goals>
+			  <goal>create-domain</goal>
+		        </goals>
+		        <configuration>
+		          <middlewareHome>${middleware.home}</middlewareHome>
+		          <weblogicHome>${weblogic.home}</weblogicHome>
+			  <domainHome>${env.DEMOS_HOME}/grid-archive-examples/Oracle/Domains/mydomain</domainHome>
+			  <user>weblogic</user>
+		          <password>welcome1</password>
+		          <args>-Dweblogic.security.SSL.ignoreHostnameVerification=true -Djava.security.egd=file:/dev/./urandom -Dweblogic.security.TrustKeyStore=DemoTrust -skipWLSModuleScanning</args>
+		        </configuration>
+		    </execution>
+           </executions>
+       	</plugin>
+
+       </plugins>
+      </build>
+    </profile>
+
+    <profile>
       <id>configure-cluster</id>
 
       <activation>
@@ -37,31 +79,89 @@
         <defaultGoal>install</defaultGoal>
 
         <plugins>
+          <plugin>
+	    <artifactId>maven-antrun-plugin</artifactId>
+	    <executions>
+	      <execution>  
+	        <id>stop-nm</id>  
+		<phase>install</phase>  
+		<configuration>  
+		  <tasks>  
+		    <exec dir="${env.DEMOS_HOME}/grid-archive-examples/Oracle/Domains/mydomain/bin"
+			  executable="${env.DEMOS_HOME}/grid-archive-examples/Oracle/Domains/mydomain/bin/stopNodeManager.sh"		            
+		          spawn="true">
+      		      <env key="JAVA_OPTIONS" value="-Djava.security.egd=file:/dev/./urandom"/>
+		    </exec>  
+		  </tasks>  
+		</configuration>  
+		<goals>  
+		  <goal>run</goal>  
+		</goals>  
+	      </execution> 
+<execution>
+		<id>replace-nm-prop</id>
+		<phase>install</phase>
+		<configuration>
+		  <tasks>
+		    <replace token= "SecureListener=true" value="SecureListener=false" dir="${env.DEMOS_HOME}/grid-archive-examples/Oracle/Domains/mydomain/nodemanager">                                 
+		      <include name="**/*.properties"/>
+		    </replace>
+		  </tasks>
+		</configuration>
+		<goals>
+		  <goal>run</goal>
+		</goals>
+	      </execution>
+	      <execution>  
+	        <id>start-nm</id>  
+		<phase>install</phase>  
 
+		<configuration>  
+		  <tasks>  
+		    <exec dir="${env.DEMOS_HOME}/grid-archive-examples/Oracle/Domains/mydomain/bin"
+			  executable="${env.DEMOS_HOME}/grid-archive-examples/Oracle/Domains/mydomain/bin/startNodeManager.sh"		            
+		          spawn="true">  
+		      <env key="JAVA_OPTIONS" value="-Djava.security.egd=file:/dev/./urandom"/>
+		    </exec>  
+		  </tasks>  
+		</configuration>  
+		<goals>  
+		  <goal>run</goal>  
+		</goals>  
+	      </execution>   
+              <!--execution>
+	        <configuration>
+		    <tasks>
+		         <sleep seconds="5" />
+		    </tasks>
+		</configuration>
+  		<id>sleep-for-a-while</id>
+                <phase>pre-integration-test</phase>
+                <goals>
+                    <goal>run</goal>
+                </goals>
+              </execution-->
+	    </executions>
+	  </plugin>
           <plugin>
             <groupId>com.oracle.weblogic</groupId>
-            <artifactId>wls-maven-plugin</artifactId>
-
+            <artifactId>weblogic-maven-plugin</artifactId>
             <configuration>
-              <user>weblogic</user>
-              <password>welcome1</password>
               <name>${project.build.finalName}</name>
             </configuration>
-
             <executions>
 		      <execution>
 		        <id>configure-machine</id>
 		        <phase>install</phase>
-
 		        <goals>
-			  <goal>create-domain</goal>
 		          <goal>wlst</goal>
 		        </goals>
-
 		        <configuration>
-		          <middlewareHome>/u01/wls1212</middlewareHome>
-		          <weblogicHome>/u01/wls1212/wlserver</weblogicHome>
-		          <fileName>/u01/content/weblogic-innovation-seminars/WInS_Demos/grid-archive-examples/src/main/wlst/create_machine.py</fileName>
+		          <middlewareHome>${middleware.home}</middlewareHome>
+		          <weblogicHome>${weblogic.home}</weblogicHome>
+		          <fileName>${env.DEMOS_HOME}/grid-archive-examples/src/main/wlst/create_machine.py</fileName>
+		          <args>-Dweblogic.security.SSL.ignoreHostnameVerification=true -Djava.security.egd=file:/dev/./urandom -Dweblogic.security.TrustKeyStore=DemoTrust -skipWLSModuleScanning
+		          </args>
 		        </configuration>
 		    </execution>
 		    <execution>
@@ -71,13 +171,16 @@
 			 <goal>wlst</goal>
 			 </goals>
 			<configuration>
-			  <middlewareHome>/u01/wls1212</middlewareHome>
-			  <weblogicHome>/u01/wls1212/wlserver</weblogicHome>
-			 <fileName>/u01/content/weblogic-innovation-seminars/WInS_Demos/grid-archive-examples/src/main/wlst/create_example.py</fileName>
+			  <middlewareHome>${middleware.home}</middlewareHome>
+			  <weblogicHome>${weblogic.home}</weblogicHome>
+			  <fileName>${env.DEMOS_HOME}/grid-archive-examples/src/main/wlst/create_example.py</fileName>
+		          <args>-Dweblogic.security.SSL.ignoreHostnameVerification=true -Djava.security.egd=file:/dev/./urandom -Dweblogic.security.TrustKeyStore=DemoTrust -skipWLSModuleScanning
+		          </args>
 			</configuration>
 		    </execution>
            </executions>
        	</plugin>
+
        </plugins>
       </build>
     </profile>
@@ -96,7 +199,7 @@
 
           <plugin>
             <groupId>com.oracle.weblogic</groupId>
-            <artifactId>wls-maven-plugin</artifactId>
+            <artifactId>weblogic-maven-plugin</artifactId>
 
             <configuration>
               <user>weblogic</user>
@@ -114,11 +217,11 @@
                 </goals>
 
                 <configuration>
-                  <middlewareHome>/u01/wls1212</middlewareHome>
-                  <weblogicHome>/u01/wls1212/wlserver</weblogicHome>
+                  <middlewareHome>${middleware.home}</middlewareHome>
+                  <weblogicHome>${weblogic.home}</weblogicHome>
 
 
-                  <fileName>/u01/content/weblogic-innovation-seminars/WInS_Demos/grid-archive-examples/src/main/wlst/deployApp.py</fileName>
+                  <fileName>${env.DEMOS_HOME}/grid-archive-examples/src/main/wlst/deployApp.py</fileName>
                  <!-- <propertiesFile>${project.basedir}/src/main/wlst/environment.properties</propertiesFile> -->
 
                 </configuration>
@@ -146,7 +249,7 @@
 
           <plugin>
             <groupId>com.oracle.weblogic</groupId>
-            <artifactId>wls-maven-plugin</artifactId>
+            <artifactId>weblogic-maven-plugin</artifactId>
 
             <configuration>
               <user>weblogic</user>
@@ -164,11 +267,11 @@
                 </goals>
 
                 <configuration>
-                  <middlewareHome>/u01/wls1212</middlewareHome>
-                  <weblogicHome>/u01/wls1212/wlserver</weblogicHome>
+                  <middlewareHome>${middleware.home}</middlewareHome>
+                  <weblogicHome>${weblogic.home}</weblogicHome>
 
 
-                  <fileName>/u01/content/weblogic-innovation-seminars/WInS_Demos/grid-archive-examples/src/main/wlst/redeployApp.py</fileName>
+                  <fileName>${env.DEMOS_HOME}/grid-archive-examples/src/main/wlst/redeployApp.py</fileName>
                  <!-- <propertiesFile>${project.basedir}/src/main/wlst/environment.properties</propertiesFile> -->
 
                 </configuration>
@@ -196,7 +299,7 @@
 
           <plugin>
             <groupId>com.oracle.weblogic</groupId>
-            <artifactId>wls-maven-plugin</artifactId>
+            <artifactId>weblogic-maven-plugin</artifactId>
 
             <configuration>
               <user>weblogic</user>
@@ -214,11 +317,11 @@
                 </goals>
 
                 <configuration>
-                  <middlewareHome>/u01/wls1212</middlewareHome>
-                  <weblogicHome>/u01/wls1212/wlserver</weblogicHome>
+                  <middlewareHome>${middleware.home}</middlewareHome>
+                  <weblogicHome>${weblogic.home}</weblogicHome>
 
 
-                  <fileName>/u01/content/weblogic-innovation-seminars/WInS_Demos/grid-archive-examples/src/main/wlst/clean-configuration.py</fileName>
+                  <fileName>${env.DEMOS_HOME}/grid-archive-examples/src/main/wlst/clean-configuration.py</fileName>
                  <!-- <propertiesFile>${project.basedir}/src/main/wlst/environment.properties</propertiesFile> -->
 
                 </configuration>
@@ -226,7 +329,26 @@
               </execution>
             </executions>
           </plugin>
-
+          <plugin>
+	    <artifactId>maven-antrun-plugin</artifactId>
+	    <executions>
+	      <execution>  
+	        <id>stop-nm</id>  
+		<phase>install</phase>  
+		<configuration>  
+		  <tasks>  
+		    <exec dir="${env.DEMOS_HOME}/grid-archive-examples/Oracle/Domains/mydomain/bin"
+			  executable="${env.DEMOS_HOME}/grid-archive-examples/Oracle/Domains/mydomain/bin/stopNodeManager.sh"		            
+		          spawn="true">  
+		    </exec>  
+		  </tasks>  
+		</configuration>  
+		<goals>  
+		  <goal>run</goal>  
+		</goals>  
+	      </execution>  
+	    </executions>
+	  </plugin>
 
         </plugins>
       </build>
@@ -240,10 +362,8 @@
    <build>
     <defaultGoal>install</defaultGoal>
 
-    <plugins>
-      <!--
-        This plugin sets the source and target language levels to Java 1.6
-      -->
+    <!--plugins>
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -262,11 +382,11 @@
 
       <plugin>
         <groupId>com.oracle.weblogic</groupId>
-        <artifactId>wls-maven-plugin</artifactId>
-        <version>12.1.2.0</version>
+        <artifactId>weblogic-maven-plugin</artifactId>
+        <version>12.1.3-0-0</version>
 
         <configuration>
-          <middlewareHome>/u01/wls1212</middlewareHome>
+          <middlewareHome>${middleware.home}</middlewareHome>
           <adminurl>t3://wins-vbox:7001</adminurl>
           <user>weblogic</user>
           <password>welcome1</password>
@@ -274,8 +394,9 @@
 
       </plugin>
 
-    </plugins>
+    </plugins-->
 
   </build>
 
 </project>
+

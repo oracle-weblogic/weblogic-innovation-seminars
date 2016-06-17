@@ -1,7 +1,8 @@
 #!/bin/sh
-sudo service oracle-12c-pdb stop
-sudo service oracle-12c-cdb stop
 
+. /u01/content/weblogic-innovation-seminars/WInS_Demos/control/bin/winsEnv.sh
+
+$ORACLE_HOME/bin/dbshut $ORACLE_HOME
 
 if [ "$1" == "wait" ]; then
   echo "This window will close automatically in 5s..."

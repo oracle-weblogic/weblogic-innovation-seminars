@@ -1,0 +1,408 @@
+Manifest-Version: 1.0
+Implementation-Title: WebLogic Server 12.2.1.0.1 Mon Oct 23 12:22:22 P
+ DT 2015 1725230
+Bundle-SpecVersion: 1.0
+Implementation-Version: 12.2.1.0.0
+Source-Repository-Change-Id: 1725230
+Specification-Title: weblogic.jar
+Class-Path: weblogic-launcher.jar cryptoj.jar ../../../oracle_common/m
+ odules/features/com.oracle.db.jdbc7-no-dms.jar ../../../oracle_common
+ /modules/features/cieCfg_wls_external_lib.jar ../../../oracle_common/
+ modules/features/cieCfg_cam_external_lib.jar ../../../oracle_common/m
+ odules/mysql-connector-java-commercial-5.1.22/mysql-connector-java-co
+ mmercial-5.1.22-bin.jar ../../../oracle_common/modules/datadirect/wls
+ qlserver.jar ../../../oracle_common/modules/datadirect/wldb2.jar ../.
+ ./../oracle_common/modules/datadirect/wlsybase.jar ../../../oracle_co
+ mmon/modules/datadirect/wlinformix.jar ../../../oracle_common/modules
+ /datadirect/fmwgenerictoken.jar ../../../oracle_common/modules/org.bo
+ uncycastle.bcprov-jdk15on.jar ../../../oracle_common/modules/org.boun
+ cycastle.bcprov-ext-jdk15on.jar schema/weblogic-domain-binding-compat
+ ibility.jar osgi.jar ../../../oracle_common/modules/internal/features
+ /com.oracle.webservices.wls.wls-classpath.jar ../../modules/com.bea.c
+ ore.xml.xmlbeans.jar ../../modules/ch.qos.cal10n.cal10n-api.jar ../..
+ /modules/com.fasterxml.classmate.jar ../../../oracle_common/modules/c
+ ommons-fileupload.commons-fileupload.jar ../../../oracle_common/modul
+ es/com.bea.core.apache.commons.collections.jar ../../modules/commons-
+ io.commons-io.jar ../../../oracle_common/modules/com.bea.core.apache.
+ commons.lang.jar ../../modules/commons-net.commons-net.jar ../../modu
+ les/com.bea.core.apache.commons.pool.jar ../../modules/oro.oro.jar ..
+ /../modules/cglib.cglib-nodep.jar ../../modules/com.google.guava.guav
+ a.jar ../../modules/org.hibernate.hibernate-validator-cdi.jar ../../.
+ ./oracle_common/modules/javax.annotation.javax.annotation-api.jar ../
+ ../../oracle_common/modules/org.glassfish.javax.el.jar ../../../oracl
+ e_common/modules/org.javassist.javassist.jar ../../../oracle_common/m
+ odules/javax.ejb.javax.ejb-api.jar ../../modules/javax.enterprise.dep
+ loy.deployment-api.jar ../../modules/javax.enterprise.cdi-api.jar ../
+ ../modules/javax.enterprise.concurrent.javax.enterprise.concurrent-ap
+ i.jar ../../../oracle_common/modules/javax.inject.javax.inject.jar ..
+ /../modules/javax.interceptor.javax.interceptor-api.jar ../../modules
+ /javax.jdo.jdo2-api.jar ../../../oracle_common/modules/javax.jms.java
+ x.jms-api.jar ../../../oracle_common/modules/org.glassfish.javax.json
+ .jar ../../../oracle_common/modules/com.sun.mail.javax.mail.jar ../..
+ /modules/javax.resource.javax.resource-api.jar ../../../oracle_common
+ /modules/javax.servlet.javax.servlet-api.jar ../../../oracle_common/m
+ odules/javax.servlet.jsp.javax.servlet.jsp-api.jar ../../modules/java
+ x.transaction.javax.transaction-api.jar ../../modules/javax.validatio
+ n.jar ../../modules/javax.websocket.javax.websocket-api.jar ../../../
+ oracle_common/modules/javax.ws.rs.javax.ws.rs-api.jar ../../../oracle
+ _common/modules/javax.xml.jaxrpc-api.jar ../../modules/com.oracle.web
+ logic.javolution.jar ../../modules/org.jboss.logging.jboss-logging.ja
+ r ../../modules/joda-time.joda-time.jar ../../modules/javax.batch.jav
+ ax.batch-api.jar ../../modules/com.ibm.jbatch.com.ibm.jbatch.containe
+ r.jar ../../modules/com.ibm.jbatch.com.ibm.jbatch.spi.jar ../../modul
+ es/org.jboss.interceptor.jboss-interceptor-core.jar ../../modules/org
+ .jboss.interceptor.jboss-interceptor-spi.jar ../../modules/com.oracle
+ .weblogic.internal.thirdparty.jython.jar ../../modules/org.jboss.weld
+ .weld-api.jar ../../modules/org.jboss.weld.weld-core.jar ../../module
+ s/org.jboss.weld.weld-spi.jar ../../modules/com.oracle.buzzmessagebus
+ .buzzmessagebus.jar ../../../oracle_common/modules/org.glassfish.hk2.
+ hk2-api.jar ../../modules/org.glassfish.hk2.hk2-config.jar ../../modu
+ les/org.glassfish.hk2.hk2-core.jar ../../modules/org.glassfish.hk2.co
+ nfig-types.jar ../../modules/org.glassfish.main.external.trilead-ssh2
+ -repackaged.jar ../../modules/org.glassfish.main.common.common-util.j
+ ar ../../../oracle_common/modules/org.glassfish.hk2.hk2-utils.jar ../
+ ../../oracle_common/modules/org.glassfish.hk2.hk2-locator.jar ../../m
+ odules/org.glassfish.hk2.hk2-runlevel.jar ../../../oracle_common/modu
+ les/org.glassfish.hk2.external.aopalliance-repackaged.jar ../../modul
+ es/org.glassfish.hk2.osgi-resource-locator.jar ../../modules/org.glas
+ sfish.hk2.hk2-configuration-hub.jar ../../modules/org.glassfish.hk2.h
+ k2-configuration-integration.jar ../../modules/org.glassfish.hk2.hk2-
+ config-hub-integration.jar ../../modules/org.glassfish.hk2.hk2-extras
+ .jar ../../../oracle_common/modules/com.sun.jersey.jersey-client.jar 
+ ../../../oracle_common/modules/com.sun.jersey.jersey-core.jar ../../.
+ ./oracle_common/modules/com.sun.jersey.contribs.jersey-multipart.jar 
+ ../../../oracle_common/modules/com.sun.jersey.jersey-json.jar ../../.
+ ./oracle_common/modules/com.sun.jersey.contribs.jersey-oauth.oauth-si
+ gnature.jar ../../../oracle_common/modules/com.sun.jersey.contribs.je
+ rsey-oauth.oauth-client.jar ../../../oracle_common/modules/org.glassf
+ ish.jersey.ext.jersey-bean-validation.jar ../../../oracle_common/modu
+ les/org.glassfish.jersey.core.jersey-client.jar ../../../oracle_commo
+ n/modules/org.glassfish.jersey.core.jersey-common.jar ../../../oracle
+ _common/modules/org.glassfish.jersey.ext.cdi.jersey-cdi1x.jar ../../.
+ ./oracle_common/modules/org.glassfish.jersey.ext.cdi.jersey-cdi1x-ser
+ vlet.jar ../../../oracle_common/modules/org.glassfish.jersey.ext.cdi.
+ jersey-cdi1x-transaction.jar ../../../oracle_common/modules/org.glass
+ fish.jersey.containers.jersey-container-servlet.jar ../../../oracle_c
+ ommon/modules/org.glassfish.jersey.containers.jersey-container-servle
+ t-core.jar ../../../oracle_common/modules/org.glassfish.jersey.bundle
+ s.repackaged.jersey-guava.jar ../../../oracle_common/modules/org.glas
+ sfish.jersey.ext.jersey-entity-filtering.jar ../../../oracle_common/m
+ odules/org.glassfish.jersey.media.jersey-media-jaxb.jar ../../../orac
+ le_common/modules/org.glassfish.jersey.media.jersey-media-json-jackso
+ n.jar ../../../oracle_common/modules/org.glassfish.jersey.media.jerse
+ y-media-json-jackson1.jar ../../../oracle_common/modules/org.glassfis
+ h.jersey.media.jersey-media-json-jettison.jar ../../../oracle_common/
+ modules/org.glassfish.jersey.media.jersey-media-json-processing.jar .
+ ./../../oracle_common/modules/org.glassfish.jersey.media.jersey-media
+ -moxy.jar ../../../oracle_common/modules/org.glassfish.jersey.media.j
+ ersey-media-multipart.jar ../../../oracle_common/modules/org.glassfis
+ h.jersey.media.jersey-media-sse.jar ../../../oracle_common/modules/or
+ g.glassfish.jersey.core.jersey-server.jar ../../../oracle_common/modu
+ les/org.glassfish.jersey.security.oauth1-signature.jar ../../../oracl
+ e_common/modules/org.glassfish.jersey.security.oauth1-client.jar ../.
+ ./../oracle_common/modules/org.glassfish.jersey.security.oauth2-clien
+ t.jar ../../../oracle_common/modules/org.codehaus.jettison.jettison.j
+ ar ../../../oracle_common/modules/org.glassfish.jsonp-jaxrs.jar ../..
+ /../oracle_common/modules/org.codehaus.jackson.jackson-core-asl.jar .
+ ./../../oracle_common/modules/org.codehaus.jackson.jackson-jaxrs.jar 
+ ../../../oracle_common/modules/org.codehaus.jackson.jackson-mapper-as
+ l.jar ../../../oracle_common/modules/org.codehaus.jackson.jackson-xc.
+ jar ../../../oracle_common/modules/com.fasterxml.jackson.core.jackson
+ -core.jar ../../../oracle_common/modules/com.fasterxml.jackson.core.j
+ ackson-databind.jar ../../../oracle_common/modules/com.fasterxml.jack
+ son.core.jackson-annotations.jar ../../../oracle_common/modules/com.f
+ asterxml.jackson.module.jackson-module-jaxb-annotations.jar ../../../
+ oracle_common/modules/com.fasterxml.jackson.jaxrs.jackson-jaxrs-base.
+ jar ../../../oracle_common/modules/com.fasterxml.jackson.jaxrs.jackso
+ n-jaxrs-json-provider.jar ../../../oracle_common/modules/com.nimbusds
+ .nimbus-jose-jwt.jar ../../../oracle_common/modules/net.minidev.json-
+ smart.jar ../../../oracle_common/modules/net.jcip.jcip-annotations.ja
+ r ../../modules/org.glassfish.tyrus.tyrus-spi.jar ../../modules/org.g
+ lassfish.tyrus.tyrus-core.jar ../../modules/org.glassfish.tyrus.tyrus
+ -client.jar ../../modules/org.glassfish.tyrus.tyrus-server.jar ../../
+ modules/org.glassfish.tyrus.tyrus-container-glassfish-ejb.jar ../../m
+ odules/org.glassfish.tyrus.tyrus-container-glassfish-cdi.jar ../../mo
+ dules/org.glassfish.tyrus.tyrus-container-jdk-client.jar ../../module
+ s/com.oracle.tyrus.cluster.tyrus-cluster-common.jar ../../modules/com
+ .oracle.tyrus.cluster.tyrus-cluster-coherence.jar ../../modules/javax
+ .servlet.jsp.jstl.javax.servlet.jsp.jstl-api.jar ../../modules/org.gl
+ assfish.web.javax.servlet.jsp.jstl.jar ../../../oracle_common/modules
+ /oracle.jdbc/aqapi.jar ../../../oracle_common/lib/ons.jar ../../../or
+ acle_common/modules/commonj.sdo.jar ../../../oracle_common/modules/or
+ acle.toplink/eclipselink.jar ../../../oracle_common/modules/oracle.to
+ plink/toplink-grid.jar ../../../oracle_common/modules/oracle.toplink/
+ toplink-exalogic.jar ../../../oracle_common/modules/asm-3.1.jar ../..
+ /../coherence/lib/coherence.jar ../../../coherence/lib/coherence-web.
+ jar ../../../coherence/lib/coherence-rest.jar ../../../oracle_common/
+ modules/javax.persistence.jar ../../../oracle_common/modules/oracle.t
+ oplink/toplink-dataservices.jar ../../../oracle_common/modules/oracle
+ .xdk/xmlparserv2_sans_jaxp_services.jar ../../../oracle_common/module
+ s/org.apache.ant_1.9.2/lib/ant.jar ../../../oracle_common/modules/org
+ .apache.ant_1.9.2/lib/ant-launcher.jar ../../../oracle_common/modules
+ /com.sun.org.apache.xml.internal.resolver.jar ../../modules/org.jboss
+ .classfilewriter.jboss-classfilewriter.jar ../../modules/com.bea.core
+ .apache.dom.jar ../../modules/com.oracle.jfr.jar ../../modules/javax.
+ security.auth.message.jar ../../../oracle_common/modules/javax.manage
+ ment.j2ee.jar ../../modules/com.ning.compress.jar ../../modules/com.o
+ racle.cmm.agent.jar ../../modules/com.oracle.weblogic.corba.jar ../..
+ /modules/asn.jar ../../modules/javax.security.jacc.jar ../../modules/
+ com.bea.core.ldapjdk.jar ../../modules/com.oracle.weblogic.security.o
+ pensaml.jar ../../modules/com.oracle.weblogic.security.opensaml2.jar 
+ ../../modules/com.bea.core.certj.jar ../../modules/com.oracle.weblogi
+ c.j2eeclient.jar ../../modules/com.oracle.weblogic.application.api.ja
+ r ../../modules/com.oracle.weblogic.application.core.jar ../../module
+ s/com.bea.core.descriptor.application.jar ../../modules/com.bea.core.
+ descriptor.application.binding.jar ../../modules/com.oracle.weblogic.
+ application.jar ../../modules/hibernate.validator.jar ../../modules/c
+ om.oracle.weblogic.application.archive.jar ../../modules/com.bea.core
+ .utils.classloaders.jar ../../modules/com.oracle.weblogic.deployment.
+ jar ../../modules/com.oracle.weblogic.j2ee.jar ../../modules/com.bea.
+ core.descriptor.j2ee.jar ../../modules/com.oracle.weblogic.javaee.jar
+  ../../modules/com.bea.core.descriptor.wl.jar ../../modules/com.oracl
+ e.batch.connector.jar ../../modules/com.oracle.weblogic.beangen.gener
+ al.api.jar ../../modules/com.bea.core.beangen.jar ../../modules/com.b
+ ea.core.beaninfo.jar ../../modules/com.bea.core.descriptor.jar ../../
+ modules/com.bea.core.descriptor.settable.binding.jar ../../modules/co
+ m.bea.core.appdescriptor.jar ../../modules/com.oracle.weblogic.connec
+ tor.jar ../../modules/com.oracle.weblogic.console.runtime.jar ../../m
+ odules/com.oracle.core.coherence.descriptor.jar ../../modules/com.ora
+ cle.core.coherence.descriptor.binding.jar ../../modules/com.oracle.we
+ blogic.cacheprovider.jar ../../modules/com.oracle.weblogic.core.base.
+ api.jar ../../modules/com.oracle.weblogic.common.frag.jar ../../modul
+ es/com.oracle.weblogic.common.internal.frag.jar ../../modules/com.ora
+ cle.weblogic.health.jar ../../modules/com.oracle.weblogic.kernel.jar 
+ ../../modules/com.bea.core.weblogic.lifecycle.jar ../../modules/com.o
+ racle.weblogic.server.jar ../../modules/com.oracle.weblogic.t3-server
+ .jar pcl2.jar ../../modules/com.oracle.weblogic.cluster.api.jar ../..
+ /modules/com.oracle.weblogic.cluster.messaging.jar ../../modules/com.
+ oracle.weblogic.cluster.jar ../../modules/com.oracle.core.coherence.a
+ pi.jar ../../modules/com.oracle.core.coherence.coherence-web.jar ../.
+ ./modules/com.oracle.core.coherence.container.jar ../../modules/com.o
+ racle.core.coherence.app.descriptor.jar ../../modules/com.oracle.core
+ .coherence.app.descriptor.binding.jar ../../modules/com.oracle.core.c
+ oherence.integration.jar ../../modules/com.bea.core.jsr166e.jar ../..
+ /modules/com.oracle.weblogic.deprecated_functionality.jar ../../modul
+ es/com.oracle.weblogic.io.jar ../../modules/com.oracle.weblogic.aspec
+ ts.jar ../../modules/com.oracle.core.interceptor.jar ../../modules/co
+ m.oracle.weblogic.scheduler.jar ../../modules/com.oracle.weblogic.pac
+ kage.jar ../../modules/com.bea.core.workarea.jar ../../modules/com.or
+ acle.weblogic.jndi.api.jar ../../modules/com.oracle.weblogic.jndi.jar
+  ../../modules/com.oracle.weblogic.server.profile.jar ../../modules/c
+ om.oracle.weblogic.buzzmessagebus.jar ../../modules/com.oracle.core.n
+ odemanager.client.jar ../../modules/com.oracle.core.nodemanager.commo
+ n.jar ../../modules/com.bea.core.nodemanager.plugin.jar ../../modules
+ /com.oracle.core.nodemanager.server.jar ../../modules/com.oracle.webl
+ ogic.nodemanager.jar ../../modules/com.oracle.weblogic.iiop.jar ../..
+ /modules/com.oracle.weblogic.iiop-common.jar ../../modules/com.bea.co
+ re.weblogic.rmi.client.jar ../../modules/com.oracle.weblogic.rjvm.jar
+  ../../modules/com.oracle.weblogic.rmi.jar ../../modules/com.bea.core
+ .weblogic.scheduler.api.jar jcom.jar ../../modules/com.oracle.weblogi
+ c.server.stubs.jar ../../modules/com.oracle.weblogic.timers.jar ../..
+ /modules/com.bea.core.timers.jar ../../modules/com.oracle.weblogic.se
+ rver.muxers.jar ../../modules/com.oracle.weblogic.protocol.jar ../../
+ modules/com.oracle.weblogic.protocol.api.jar ../../modules/com.oracle
+ .weblogic.server.channels.jar ../../modules/com.oracle.weblogic.serve
+ r.channels-api.jar ../../modules/com.oracle.weblogic.socket.jar ../..
+ /modules/com.bea.core.weblogic.socket.api.jar ../../modules/com.bea.c
+ ore.utils.agent.jar ../../modules/com.bea.core.utils.compiler.jar ../
+ ../modules/com.bea.core.utils.expressions.jar ../../modules/com.bea.c
+ ore.utils.full.jar ../../modules/com.oracle.weblogic.old-utils-genera
+ l.jar ../../modules/com.oracle.weblogic.old-utils-weblogic.jar ../../
+ modules/com.oracle.weblogic.utils.jar ../../modules/com.oracle.weblog
+ ic.time.jar ../../modules/com.oracle.weblogic.time.api.jar ../../../o
+ racle_common/modules/com.bea.core.utils.jar ../../modules/com.bea.cor
+ e.utils.wrapper.jar ../../modules/com.oracle.weblogic.work.api.jar ..
+ /../modules/com.oracle.weblogic.concurrent.jar ../../modules/com.orac
+ le.weblogic.concurrentservice.jar ../../modules/com.oracle.weblogic.w
+ ork.jar ../../modules/com.oracle.weblogic.workmanager-context.jar ../
+ ../modules/com.bea.core.weblogic.workmanager.jar ../../modules/com.be
+ a.core.datasource6.jar ../../modules/com.bea.core.datasource6.binding
+ .jar ../../modules/com.oracle.weblogic.jdbc.jar ../../modules/com.ora
+ cle.weblogic.rac.ucp.jar ../../modules/com.bea.core.resourcepool.jar 
+ ../../modules/com.oracle.weblogic.deploy.api.jar ../../modules/com.or
+ acle.weblogic.deploy.jar bea_wls_remote_deployer.jar ../../modules/co
+ m.oracle.weblogic.deploy.service.jar ../../modules/com.bea.core.diagn
+ ostics.accessor.jar ../../modules/com.bea.core.diagnostics.accessor.b
+ inding.jar ../../modules/com.oracle.weblogic.diagnostics.accessor.run
+ time.jar ../../modules/com.oracle.weblogic.diagnostics.base.jar ../..
+ /modules/com.oracle.weblogic.diagnostics.base-add-on.jar ../../module
+ s/com.bea.core.diagnostics.core.jar ../../modules/com.bea.core.diagno
+ stics.core-utils.jar ../../modules/com.oracle.weblogic.diagnostics.de
+ scriptor.jar schema/diagnostics-binding.jar schema/diagnostics-image-
+ binding.jar ../../modules/com.bea.core.diagnostics.flightrecorder.jar
+  ../../modules/com.oracle.diagnostics.framework.jar ../../modules/com
+ .bea.core.monitoring.harvester.api.jar ../../modules/com.bea.core.mon
+ itoring.harvester.jmx.jar ../../modules/com.bea.mbean.typing.util.jar
+  ../../modules/com.bea.adaptive.harvester.utils.jar ../../modules/com
+ .bea.core.i18n.generator.jar ../../../oracle_common/modules/com.bea.c
+ ore.i18n.jar ../../modules/com.bea.core.i18n.tools.jar ../../modules/
+ com.bea.core.diagnostics.instrumentor.config.jar ../../modules/com.be
+ a.core.diagnostics.instrumentor.jar ../../modules/com.bea.core.repack
+ aged.apache.commons.logging.jar ../../modules/com.bea.core.logging.de
+ bug.jar ../../modules/com.bea.core.diagnostics.logging.jar ../../modu
+ les/com.bea.core.logging.jar ../../modules/org.slf4j.api.jar ../../mo
+ dules/org.slf4j.ext.jar ../../modules/org.slf4j.jdk14.jar ../../modul
+ es/com.oracle.weblogic.logging.jar ../../modules/com.oracle.core.webl
+ ogic.msgcat.jar ../../modules/com.oracle.weblogic.management.diagnost
+ ics.jar ../../modules/com.oracle.weblogic.management.logging.jar ../.
+ ./modules/com.bea.core.diagnostics.query.jar debugpatch-agent.jar dia
+ gnostics-agent.jar ../../modules/com.oracle.weblogic.diagnostics.jar 
+ ../../modules/com.oracle.weblogic.diagnostics.partition.jar ../../mod
+ ules/com.oracle.core.diagnostics.resources.jar ../../modules/monfox.d
+ snmp.agent.jar ../../modules/com.bea.core.diagnostics.snmp.jar ../../
+ modules/com.bea.core.diagnostics.notifications.jar ../../modules/com.
+ oracle.weblogic.ejb.jar ../../modules/com.bea.core.ejbgen.jar ../../m
+ odules/com.oracle.weblogic.ejb.wlsapi.jar ../../modules/com.bea.core.
+ cache.jar ../../modules/com.oracle.weblogic.marathon.jar ../../module
+ s/com.oracle.weblogic.metadata.jar ../../modules/com.oracle.weblogic.
+ tools.ui.jar ../../modules/com.bea.core.redef.jar ../../modules/com.b
+ ea.core.redefagent.jar ../../modules/com.bea.core.redef.binding.jar .
+ ./../modules/com.bea.core.annogen.jar ../../modules/com.oracle.weblog
+ ic.ant.taskdefs.jar ../../modules/com.oracle.weblogic.jolt.jar ../../
+ modules/internal/jmsadapter.jar ../../modules/com.oracle.weblogic.jms
+ .api.jar ../../modules/com.bea.core.messaging.kernel.jar ../../module
+ s/com.oracle.weblogic.jms.jar ../../modules/com.bea.core.jms.integrat
+ ion.injection.jar ../../modules/com.bea.core.jmspool.jar ../../module
+ s/internal/jms-internal-notran-adp.rar ../../modules/internal/jms-int
+ ernal-xa-adp.rar jms-local-adp.rar jms-notran-adp.rar jms-xa-adp.rar 
+ ../../modules/com.oracle.weblogic.cam.plugin.jar ../../modules/com.be
+ a.core.mbean.maker.jar ../../modules/com.bea.core.mbean.support.jar m
+ beantypes/wlManagementImplSource.jar mbeantypes/wlManagementMBean.jar
+  ../../modules/com.oracle.weblogic.management.config.api.jar ../../mo
+ dules/com.oracle.weblogic.management.beanimpls.jar ../../modules/com.
+ oracle.weblogic.management.config.validators.jar schema/weblogic-doma
+ in-binding.jar ../../modules/com.oracle.weblogic.management.admin.jar
+  ../../modules/com.oracle.weblogic.management.core.api.jar ../../modu
+ les/com.oracle.weblogic.management.base.jar ../../modules/com.oracle.
+ weblogic.management.context.jar ../../modules/com.bea.core.management
+ .core.jar ../../modules/com.bea.core.management.core.binding.jar ../.
+ ./modules/com.bea.core.management.eventbus.jar ../../modules/com.orac
+ le.weblogic.management.orchestration.jar ../../modules/com.oracle.web
+ logic.management.orchestration-mbean.jar ../../modules/com.oracle.web
+ logic.management.patching.jar ../../modules/com.oracle.weblogic.manag
+ ement.provider.internal.jar ../../modules/com.oracle.weblogic.managem
+ ent.servlet.jar ../../modules/com.oracle.weblogic.management.timer.ja
+ r ../../modules/com.oracle.weblogic.management.tools.jar ../../module
+ s/com.oracle.weblogic.management.upgrade.jar ../../modules/com.oracle
+ .weblogic.management.descriptors.jar ../../modules/com.oracle.weblogi
+ c.management.descriptors.webservice.jar ../../modules/com.oracle.webl
+ ogic.management.jmx.api.jar ../../modules/com.oracle.weblogic.managem
+ ent.j2ee.jar mejb.jar ../../modules/mejb-deployer.jar ../../modules/c
+ om.bea.core.management.jmx.jar ../../modules/com.oracle.weblogic.mana
+ gement.mbeanservers.jar ../../modules/com.oracle.weblogic.management.
+ remote.jar ../../modules/com.oracle.weblogic.lifecycle.api.jar ../../
+ modules/com.oracle.weblogic.lifecycle.config.jar ../../modules/com.or
+ acle.weblogic.lifecycle.core.jar ../../modules/com.oracle.weblogic.li
+ fecycle.orchestration.jar ../../modules/com.oracle.weblogic.lifecycle
+ .provisioning.api.jar ../../modules/com.oracle.weblogic.lifecycle.pro
+ visioning.core.jar ../../modules/com.oracle.weblogic.lifecycle.provis
+ ioning.wlst.jar ../../common/lifecycle/plugins/com.oracle.weblogic.li
+ fecycle.plugin.db.jar ../../common/lifecycle/plugins/com.oracle.weblo
+ gic.lifecycle.plugin.template.jar ../../common/lifecycle/plugins/com.
+ oracle.weblogic.lifecycle.plugin.wls.jar ../../modules/com.oracle.web
+ logic.rest.framework.jar ../../modules/com.oracle.weblogic.management
+ .runtime.beaninfo.jar ../../modules/com.oracle.weblogic.management.se
+ curity.api.jar ../../modules/com.oracle.weblogic.management.security.
+ beanimpls.jar ../../modules/com.oracle.weblogic.management-services.j
+ ar ../../modules/com.oracle.weblogic.management.tools.migration.jar .
+ ./../modules/com.oracle.weblogic.management.scripting.jar ../../modul
+ es/com.oracle.injection.api.jar ../../modules/com.oracle.injection.in
+ tegration.utils.jar ../../modules/com.oracle.injection.integration.we
+ blogic.jar ../../modules/com.oracle.injection.provider.weld.jar ../..
+ /modules/com.oracle.weblogic.osgi.jar weblogic-L10N.jar ../../modules
+ /com.oracle.weblogic.server.embed.jar ../../modules/com.oracle.cmm.lo
+ wertier.jar ../../modules/com.oracle.weblogic.persistence.jar ../../m
+ odules/com.oracle.core.eclipselink.integration.jar ../../modules/com.
+ bea.core.kodo.jar ../../modules/com.bea.core.kodo.integration.jar ../
+ ../modules/com.bea.core.kodo.integration.binding.jar ../../modules/or
+ g.apache.openjpa.jar ../../modules/com.oracle.weblogic.rcm.framework.
+ base.jar ../../modules/com.oracle.weblogic.rcm.framework.core.jar ../
+ ../modules/com.oracle.weblogic.rcm.framework.init.jar ../../modules/c
+ om.oracle.weblogic.rcm.framework.jdkinteg.jar ../../modules/com.oracl
+ e.weblogic.rcm.framework.spi.jar ../../modules/com.oracle.weblogic.rc
+ m.framework.spiimpl.jar ../../modules/com.oracle.weblogic.rcm.resourc
+ emanagement.impl.jar ../../modules/com.oracle.weblogic.sca.client.jar
+  ../../modules/com.oracle.weblogic.security.authn.server.jar ../../mo
+ dules/com.oracle.weblogic.security.cert.keystore.jar ../../modules/co
+ m.oracle.weblogic.security.cert.revocation.jar ../../modules/com.orac
+ le.weblogic.security.crypto.utils.jar ../../modules/com.oracle.weblog
+ ic.security.logger.css.jar ../../modules/com.oracle.weblogic.security
+ .subject.jar ../../modules/com.bea.core.weblogic.security.digest.jar 
+ ../../modules/com.oracle.weblogic.security.encryption.jar ../../modul
+ es/com.bea.core.weblogic.security.auth.jar ../../modules/com.oracle.w
+ eblogic.entitlement.jar ../../modules/com.oracle.weblogic.ldap.jar ..
+ /../modules/com.bea.core.weblogic.security.logger.jar ../../modules/c
+ om.bea.core.weblogic.security.psm.jar ../../modules/com.oracle.weblog
+ ic.security.jar ../../modules/com.oracle.weblogic.security.network.fi
+ lter.jar ../../modules/com.bea.core.weblogic.security.ssl.jar ../../m
+ odules/com.oracle.weblogic.security.providers.env.jar ../../modules/c
+ om.oracle.weblogic.security.service.utils.jar ../../modules/com.oracl
+ e.weblogic.security.service.utils.providers.jar ../../modules/com.ora
+ cle.weblogic.security.service.utils.providers.xacml.jar ../../modules
+ /com.oracle.weblogic.security.service.api.saml.jar ../../modules/com.
+ oracle.weblogic.security.service.utils.saml.jar ../../modules/com.ora
+ cle.weblogic.security.service.api.saml2.jar ../../modules/com.oracle.
+ weblogic.security.service.utils.saml2.jar ../../modules/com.oracle.we
+ blogic.security.service.api.xacml.jar ../../modules/com.oracle.weblog
+ ic.security.service.audit.jar ../../modules/com.oracle.weblogic.secur
+ ity.service.authentication.jar ../../modules/com.oracle.weblogic.secu
+ rity.service.authorization.jar ../../modules/com.oracle.weblogic.secu
+ rity.service.certificate.jar ../../modules/com.oracle.weblogic.securi
+ ty.service.credential.jar ../../modules/com.oracle.weblogic.security.
+ service.cssapi.jar ../../modules/com.oracle.weblogic.security.service
+ .cssenv.jar ../../modules/com.oracle.weblogic.security.service.cssimp
+ l.jar ../../modules/com.oracle.weblogic.security.service.cssimpl.conf
+ ig.jar ../../modules/com.oracle.weblogic.security.service.engapi.jar 
+ ../../modules/com.oracle.weblogic.security.service.engimpl.jar ../../
+ modules/com.oracle.weblogic.security.service.ffapi.jar ../../modules/
+ com.oracle.weblogic.security.service.ffimpl.jar ../../modules/com.ora
+ cle.weblogic.security.service.saml.jar ../../modules/com.oracle.weblo
+ gic.security.service.saml2.jar ../../modules/com.oracle.weblogic.secu
+ rity.service.sspi.jar ../../modules/com.oracle.weblogic.security.serv
+ ice.store.jar ../../modules/com.oracle.core.certicom.sslplus.wls.jar 
+ ../../modules/com.oracle.core.octetstring.vde.jar ../../modules/com.o
+ racle.weblogic.spring.jar ../../modules/com.bea.core.repackaged.aspec
+ tj.aspectjweaver.jar ../../modules/com.bea.core.repackaged.springfram
+ ework.pitchfork.jar ../../modules/com.bea.core.repackaged.springframe
+ work.spring.jar ../../modules/com.bea.core.weblogic.spring.instrument
+ .jar ../../modules/com.oracle.weblogic.store.admin.util.jar ../../mod
+ ules/com.oracle.weblogic.store.jar ../../modules/com.bea.core.store.j
+ ar ../../modules/com.bea.core.store.admintool.jar ../../modules/com.o
+ racle.weblogic.store.admintool-core.jar ../../modules/com.bea.core.st
+ ore.gxa.jar ../../modules/com.bea.core.store.jdbc.jar ../../modules/c
+ om.bea.core.repackaged.apache.velocity.jar ../../modules/com.bea.core
+ .repackaged.apache.xerces.jar ../../modules/com.bea.core.repackaged.a
+ sm.jar ../../modules/com.bea.core.repackaged.asm.commons.jar ../../mo
+ dules/com.bea.core.repackaged.asm.tree.jar ../../modules/com.bea.core
+ .repackaged.asm.util.jar ../../modules/com.bea.core.antlr.runtime.jar
+  ../../modules/com.bea.core.serp.jar ../../modules/com.bea.core.repac
+ kaged.jdt.jar ../../modules/com.bea.core.transaction.jar ../../module
+ s/com.oracle.weblogic.transaction.jar ../../modules/com.oracle.weblog
+ ic.upgrade.jar ../../modules/com.bea.core.weblogic.web.api.jar ../../
+ modules/com.oracle.weblogic.cache.jar ../../modules/com.oracle.weblog
+ ic.servlet.jar wlw-langx.jar ../../modules/com.oracle.weblogic.net.ja
+ r ../../modules/glassfish.jsf.jar ../../modules/com.oracle.weblogic.s
+ ervlet.ejb2jsp.jar ../../modules/com.bea.core.http.pubsub.jar ../../m
+ odules/pubsub-mbean.jar ../../modules/com.oracle.weblogic.websocket.c
+ oherence.jar ../../modules/glassfish.tyrus.fallback.jar ../../modules
+ /com.oracle.weblogic.websocket.jar ../../modules/weblogic.dtdc.jar ..
+ /../modules/com.bea.core.weblogic.saaj.jar ../../modules/com.bea.core
+ .weblogic.stax.jar ../../modules/com.bea.core.xml.beaxmlbeans.jar ../
+ ../../oracle_common/modules/weblogic.jaxrs.internal.common.jar ../../
+ ../oracle_common/modules/weblogic.jaxrs.client.jar ../../../oracle_co
+ mmon/modules/weblogic.jaxrs.portable.server.jar ../../modules/weblogi
+ c.jaxrs.integration.jar ../../modules/com.oracle.weblogic.xml.jaxp.ja
+ r ../../modules/com.oracle.weblogic.xml.registry.jar ../../modules/co
+ m.oracle.weblogic.xml.sax.jar ../../modules/com.oracle.weblogic.xml.s
+ chema.jar ../../modules/com.oracle.weblogic.xml.schema.types.jar ../.
+ ./modules/com.bea.core.xml.staxb.buildtime.jar ../../modules/com.bea.
+ core.xml.staxb.runtime.jar ../../modules/com.oracle.weblogic.xml.util
+ .jar ../../modules/com.bea.core.xml.weblogic.xpath.jar ../../modules/
+ com.bea.core.jatmi.jar ../../modules/com.oracle.weblogic.wtc.jar
+Source-Repository-URI: ftp://null.us.oracle.com/workspace/WLS_src1214-
+ build/src1214_build/work/rsync_repo/1725230/all/wlserver/server/lib/w
+ eblogic.jar
+Created-By: 1.8.0-ea (Oracle Corporation)
+Specification-Version: 12.2.1.0.2
+Implementation-Vendor: Oracle
+

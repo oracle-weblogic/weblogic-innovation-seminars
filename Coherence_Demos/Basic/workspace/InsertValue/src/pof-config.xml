@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<!DOCTYPE pof-config SYSTEM "pof-config.dtd">
+<pof-config>
+	<user-type-list>
+	<!-- include all "standard" Coherence POF user types -->
+	<include>coherence-pof-config.xml</include>
+
+	</user-type-list>
+</pof-config>
+

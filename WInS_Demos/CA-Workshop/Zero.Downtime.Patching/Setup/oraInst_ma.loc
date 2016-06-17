@@ -1,0 +1,4 @@
+#Oracle Installer Location File Location
+#Sun Jan 03 22:43:51 PST 2016
+inst_group=oracle
+inventory_loc=/u01/wins/ma

@@ -1,0 +1,93 @@
+import re
+
+#datasource_jdbc_url='jdbc:oracle:thin:@@database.instance.1@:1521/@database.instance.pdb1.1@.@identity.domain@.oraclecloud.internal'
+datasource_jdbc_url='jdbc:oracle:thin:@@database.instance.1@:1521/AC.@identity.domain@.oraclecloud.internal'
+datasource_user='system'
+datasource_password=encrypt('@database.dba.pass@')
+
+print 'Connect to nm...';
+print os.environ["DOMAIN_HOME"];
+
+nm_listener='@jcs.instance@-wls-1'
+adminserver='@jcs.instance@'
+
+#adminserver's name created from the first 8 char + '_adminserver' suffix
+adminserver = adminserver[0:8] + '_adminserver'
+
+print 'Calculated adminserver name: ' + adminserver;
+
+print 'Create datasources...';
+
+connect('@weblogic.admin.user@','@weblogic.admin.pass@','t3://@jcs.instance@-wls-1.compute-@identity.domain@.oraclecloud.internal:7001')
+edit()
+startEdit()
+
+cd('/')
+cmo.createJDBCSystemResource('otrade-ds')
+
+cd('/JDBCSystemResources/otrade-ds/JDBCResource/otrade-ds')
+cmo.setName('otrade-ds')
+
+cd('/JDBCSystemResources/otrade-ds/JDBCResource/otrade-ds/JDBCDataSourceParams/otrade-ds')
+set('JNDINames',jarray.array([String('otrade-ds')], String))
+
+cd('/JDBCSystemResources/otrade-ds/JDBCResource/otrade-ds/JDBCDriverParams/otrade-ds')
+cmo.setUrl(datasource_jdbc_url)
+cmo.setDriverName('oracle.jdbc.OracleDriver')
+cmo.setPasswordEncrypted(datasource_password)
+cd('/JDBCSystemResources/otrade-ds/JDBCResource/otrade-ds/JDBCConnectionPoolParams/otrade-ds')
+cmo.setTestTableName('SQL SELECT 1 FROM DUAL\r\n\r\n')
+
+cd('/JDBCSystemResources/otrade-ds/JDBCResource/otrade-ds/JDBCDriverParams/otrade-ds/Properties/otrade-ds')
+cmo.createProperty('user')
+
+cd('/JDBCSystemResources/otrade-ds/JDBCResource/otrade-ds/JDBCDriverParams/otrade-ds/Properties/otrade-ds/Properties/user')
+cmo.setValue(datasource_user)
+
+cd('/JDBCSystemResources/otrade-ds/JDBCResource/otrade-ds/JDBCDataSourceParams/otrade-ds')
+cmo.setGlobalTransactionsProtocol('OnePhaseCommit')
+
+cd('/JDBCSystemResources/otrade-ds')
+#Replace the AdminServer with Actual name of Admin Server
+set('Targets',jarray.array([ObjectName('com.bea:Name=' + adminserver + ',Type=Server')], ObjectName))
+
+activate()
+
+startEdit()
+
+cd('/')
+cmo.createJDBCSystemResource('otrade-replay-ds')
+
+cd('/JDBCSystemResources/otrade-replay-ds/JDBCResource/otrade-replay-ds')
+cmo.setName('otrade-replay-ds')
+
+cd('/JDBCSystemResources/otrade-replay-ds/JDBCResource/otrade-replay-ds/JDBCDataSourceParams/otrade-replay-ds')
+set('JNDINames',jarray.array([String('otrade-replay-ds')], String))
+
+cd('/JDBCSystemResources/otrade-replay-ds/JDBCResource/otrade-replay-ds/JDBCDriverParams/otrade-replay-ds')
+cmo.setUrl(datasource_jdbc_url)
+cmo.setDriverName('oracle.jdbc.replay.OracleDataSourceImpl')
+cmo.setPasswordEncrypted(datasource_password)
+
+cd('/JDBCSystemResources/otrade-replay-ds/JDBCResource/otrade-replay-ds/JDBCConnectionPoolParams/otrade-replay-ds')
+cmo.setTestTableName('SQL SELECT 1 FROM DUAL\r\n\r\n')
+
+cd('/JDBCSystemResources/otrade-replay-ds/JDBCResource/otrade-replay-ds/JDBCDriverParams/otrade-replay-ds/Properties/otrade-replay-ds')
+cmo.createProperty('user')
+
+cd('/JDBCSystemResources/otrade-replay-ds/JDBCResource/otrade-replay-ds/JDBCDriverParams/otrade-replay-ds/Properties/otrade-replay-ds/Properties/user')
+cmo.setValue(datasource_user)
+
+cd('/JDBCSystemResources/otrade-replay-ds/JDBCResource/otrade-replay-ds/JDBCDataSourceParams/otrade-replay-ds')
+cmo.setGlobalTransactionsProtocol('OnePhaseCommit')
+
+cd('/JDBCSystemResources/otrade-replay-ds')
+#Replace the AdminServer with Actual name of Admin Server
+set('Targets',jarray.array([ObjectName('com.bea:Name=' + adminserver + ',Type=Server')], ObjectName))
+
+activate()
+
+#Replace the AdminServer with Actual name of Admin Server
+deploy('otrade','/tmp/otrade.ear',targets=adminserver)
+startApplication('otrade')
+

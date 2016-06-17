@@ -1,0 +1,211 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>com.oracle.wins.cloud</groupId>
+    <artifactId>wins-cloud</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+  </parent>
+
+  <groupId>com.oracle.wins.cloud</groupId>
+  <artifactId>websockets-examples</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
+
+  <name>websockets-examples</name>
+  
+  <properties>
+    <opc.properties>${user.dir}/../environment.properties</opc.properties>
+  </properties>
+
+  
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.jcraft</groupId>
+      <artifactId>jsch</artifactId>
+      <version>0.1.53</version>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.mojo</groupId>
+      <artifactId>exec-maven-plugin</artifactId>
+      <version>1.4.0</version>
+    </dependency> 
+    <dependency>
+            <groupId>com.oracle.wins.cloud</groupId>
+            <artifactId>cloud-common</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+    </dependency>
+  </dependencies>
+
+  <profiles>
+    <profile>
+          <id>copyToJCS</id>
+          <activation>
+            <property>
+              <name>deployWebsocketDemo</name>
+            </property>
+          </activation>
+          <build>
+            <plugins>
+              <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>properties-maven-plugin</artifactId>
+                <version>1.0-alpha-2</version>
+                  <executions>
+                    <execution>
+                      <phase>initialize</phase>
+                      <goals>
+                        <goal>read-project-properties</goal>
+                      </goals>
+                      <configuration>
+                        <files>
+                          <file>${opc.properties}</file>
+                        </files>
+                      </configuration>
+                    </execution>
+                  </executions>
+                </plugin>
+              <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.8</version>
+                <executions>
+                  <execution>
+                    <id>replace</id>
+                    <phase>install</phase>
+                    <goals>
+                      <goal>run</goal>
+                    </goals>
+                    <configuration>
+                      <target>
+                        <copy file="${user.dir}/scripts/deploy_snake.sh.sample" 
+                          tofile="${user.dir}/scripts/deploy_snake.sh" overwrite="true">
+                          <filterset>
+                            <filter token="jcs.instance" value="${jcs.instance.1}"/>
+                            <filter token="identity.domain" value="${opc.identity.domain}"/>
+                            <filter token="weblogic.admin.user" value="${jcs.instance.admin.user.1}"/>
+                            <filter token="weblogic.admin.pass" value="${jcs.instance.admin.password.1}"/>
+                          </filterset>
+                        </copy>
+                      </target>
+                    </configuration>
+                  </execution>   
+                  <execution>
+                    <id>replace2</id>
+                    <phase>install</phase>
+                    <goals>
+                      <goal>run</goal>
+                    </goals>
+                    <configuration>
+                      <target>
+                        <copy file="${user.dir}/scripts/undeploy_snake.sh.sample" 
+                          tofile="${user.dir}/scripts/undeploy_snake.sh" overwrite="true">
+                          <filterset>
+                            <filter token="jcs.instance" value="${jcs.instance.1}"/>
+                            <filter token="identity.domain" value="${opc.identity.domain}"/>
+                            <filter token="weblogic.admin.user" value="${jcs.instance.admin.user.1}"/>
+                            <filter token="weblogic.admin.pass" value="${jcs.instance.admin.password.1}"/>
+                          </filterset>
+                        </copy>
+                      </target>
+                    </configuration>
+                  </execution>                  
+                  <execution>
+                    <id>copy</id>
+                    <phase>install</phase>
+                    <goals>
+                      <goal>run</goal>
+                    </goals>
+                    <configuration>
+                      <target>
+                        <echo message="Copy artifacts to JCS." />
+                        <!-- file to be transferred -->
+                        <scp trust="true" failonerror="true" verbose="off" sftp="false" 
+                          keyfile="${user.dir}/../pk.openssh"
+                          knownhosts="${user.dir}/../known.hosts"
+                          passphrase="${ssh.passphrase}"
+                          filemode="755"
+                          todir="${ssh.user}@${jcs.ip}:/tmp"> 
+                          <fileset dir="${user.dir}../../../WInS_Demos/websockets-examples/websocket-snake-wls/target">
+                                <include name="**/*.war"/>
+                          </fileset>
+                          <fileset dir="${user.dir}/scripts">
+                            <include name="**/*.sh"/>
+                          </fileset>
+                        </scp>
+                        <sshexec trust="true" failonerror="true" verbose="off" host="${jcs.ip}"
+                          keyfile="${user.dir}/../pk.openssh"  
+                          username="${ssh.user}" passphrase="${ssh.passphrase}"
+                          usepty="true"
+                          command="chmod 755 /tmp/deploy_snake.sh;chmod 755 /tmp/undeploy_snake.sh;chmod 755 /tmp/websocket-snake-wls.war"
+                          timeout="1200000"  />
+                        <taskdef name="scp"
+                          classname="org.apache.tools.ant.taskdefs.optional.ssh.Scp">
+                          <classpath refid="maven.plugin.classpath" />
+                        </taskdef>
+                      </target>
+                    </configuration>
+                  </execution>
+                  <execution>
+                    <id>wlstdeploy</id>
+                    <phase>install</phase>
+                    <goals>
+                      <goal>run</goal>
+                    </goals>
+                    <configuration>
+                      <target>
+                        <echo message="Deploying snake websocket demo application." />
+                        <!-- remote host and the command to be executed there -->
+                        <!-- command="sudo su - oracle -c /tmp/deploy_snake.sh" -->
+                        <sshexec trust="true" failonerror="true" verbose="off" host="${jcs.ip}"
+                          keyfile="${user.dir}/../pk.openssh"  
+                          username="${ssh.user}" passphrase="${ssh.passphrase}"
+                          usepty="true"
+                          command="sudo su - oracle -c /tmp/deploy_snake.sh oracle"
+                          timeout="1200000"  />
+                        <taskdef name="scp"
+                          classname="org.apache.tools.ant.taskdefs.optional.ssh.Scp">
+                          <classpath refid="maven.plugin.classpath" />
+                        </taskdef>
+                      </target>
+                    </configuration>
+                  </execution>                  
+                </executions>
+                <dependencies>
+                  <dependency>
+                    <groupId>commons-net</groupId>
+                    <artifactId>commons-net</artifactId>
+                    <version>1.4.1</version>
+                  </dependency>
+                  <dependency>
+                    <groupId>ant</groupId>
+                    <artifactId>ant-commons-net</artifactId>
+                    <version>1.6.5</version>
+                  </dependency>
+                  <dependency>
+                    <groupId>org.apache.ant</groupId>
+                    <artifactId>ant-jsch</artifactId>
+                    <version>1.9.6</version>
+                  </dependency>
+                  <dependency>
+                    <groupId>com.jcraft</groupId>
+                    <artifactId>jsch</artifactId>
+                    <version>0.1.53</version>
+                  </dependency>
+                </dependencies>
+              </plugin>
+            </plugins>
+          </build>
+        </profile>
+
+
+      </profiles>
+
+</project>

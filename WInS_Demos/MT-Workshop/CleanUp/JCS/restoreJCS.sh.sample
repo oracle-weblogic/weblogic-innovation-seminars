@@ -1,0 +1,13 @@
+#!/bin/bash
+
+/u01/app/oracle/middleware/oracle_common/common/bin/wlst.sh /tmp/restoreJCS.py
+
+unalias cp
+unalias mv
+mv -f /tmp/setDomainEnv.sh.backup /tmp/setDomainEnv.sh
+cp -f /tmp/setDomainEnv.sh /u01/data/domains/@jcs.instance@_domain/bin/
+
+/u01/app/oracle/middleware/oracle_common/common/bin/wlst.sh /tmp/restartServer.py
+
+rm -Rf /u01/data/domains/@jcs.instance@_domain/partitions/*
+rm -Rf /tmp/setDomainEnv.sh

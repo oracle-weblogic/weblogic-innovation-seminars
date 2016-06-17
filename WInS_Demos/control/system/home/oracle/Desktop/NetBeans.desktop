@@ -1,0 +1,12 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=NetBeans IDE 8.0.2
+Comment=The Smarter Way to Code
+Exec=/bin/sh "/u02/netbeans/bin/netbeans"
+Icon=/u02/netbeans/nb/netbeans.png
+Categories=Application;Development;Java;IDE
+Version=1.0
+Type=Application
+Terminal=0
+
+Name[en_US]=NetBeans

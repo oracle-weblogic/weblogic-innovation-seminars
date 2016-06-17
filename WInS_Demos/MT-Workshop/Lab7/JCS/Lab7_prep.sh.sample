@@ -1,0 +1,8 @@
+#!/bin/bash
+
+
+echo "********************************** Applying Patch to the @jcs.instance@_domain ********************************"
+cp /tmp/setDomainEnv.sh /u01/data/domains/@jcs.instance@_domain/bin/
+
+/u01/app/oracle/middleware/oracle_common/common/bin/wlst.sh /tmp/Lab7.py
+

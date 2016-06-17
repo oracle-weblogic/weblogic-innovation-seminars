@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Terminal=true
+Icon[en_US]=gnome-panel-launcher
+Name[en_US]=Reset WInS Demos
+Exec=/u01/content/weblogic-innovation-seminars/WInS_Demos/control/bin/clean.sh wait
+Name=Reset WInS Demos
+Icon=/u01/content/weblogic-innovation-seminars/WInS_Demos/control/images/reset.png

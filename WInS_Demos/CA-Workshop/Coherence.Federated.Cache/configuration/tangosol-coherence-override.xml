@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coherence
+  xmlns="http://xmlns.oracle.com/coherence/coherence-operational-config"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://xmlns.oracle.com/coherence/coherence-operational-config http://xmlns.oracle.com/coherence/coherence-operational-config/1.3/coherence-operational-config.xsd">
+  <!--coherence-version:12.2.1 -->
+
+
+  <!-- Define a federation configuration for CoherenceClusterA and CoherenceClusterB 
+    where the default topology is Active-Active. -->
+  <federation-config>
+    <participants>
+      <participant>
+        <name>CoherenceClusterA</name>
+        <remote-addresses>
+          <socket-address>
+            <address>127.0.0.1</address>
+            <port>9000</port>
+          </socket-address>
+        </remote-addresses>
+      </participant>
+      <participant>
+        <name>CoherenceClusterB</name>
+        <remote-addresses>
+          <socket-address>
+            <address>127.0.0.1</address>
+            <port>11200</port>
+          </socket-address>
+        </remote-addresses>
+      </participant>
+    </participants>
+    <!-- Active / passive -->
+    <topology-definitions>
+      <active-passive>
+        <name>ActiveActiveTopology</name>
+        <active>CoherenceClusterA</active>
+	<active>CoherenceClusterB</active>
+      </active-passive>
+    </topology-definitions>
+    <!-- -->
+  </federation-config>
+</coherence>

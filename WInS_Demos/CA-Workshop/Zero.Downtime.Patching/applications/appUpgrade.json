@@ -1,0 +1,7 @@
+{"applications":[
+{
+"applicationName":"ScrabbleStage",
+"patchedLocation":"/u01/content/weblogic-innovation-seminars/WInS_Demos/CA-Workshop/Zero.Downtime.Patching/applications/ScrabbleStagev2.war",
+"backupLocation":"/u01/content/weblogic-innovation-seminars/WInS_Demos/CA-Workshop/Zero.Downtime.Patching/applications/ScrabbleStagev1.war"
+}
+]}

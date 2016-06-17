@@ -1,0 +1,38 @@
+
+-- ===========================================================================
+-- To setup:
+-- 1) optional: clean up any prior run
+--    ggsci> stop cs-cap!
+--    ggsci> DBLOGIN USERID csdemo, PASSWORD csdemo
+--    ggsci> delete cs-cap!
+--
+-- 2) If the tables has been recreated:
+--    ggsci> DBLOGIN USERID csdemo, PASSWORD csdemo
+--    ggsci> ADD TRANDATA csdemo.*
+-- 3) 
+--    ggsci> add extract cs-cap, tranlog, begin now
+--    ggsci> info cs-cap
+--
+-- 4)
+--    ggsci> ADD EXTTRAIL ./dirdat/cs-trail, EXTRACT cs-cap
+-- 5) start processing
+--    ggsci> start cs-cap
+--    #sh> sleep 2
+--    ggsci> send cs-cap, report
+--    ggsci> view report cs-cap
+-- or from command line: extract PARAMFILE ./dirprm/cs-cap.prm 
+-- ===========================================================================
+
+EXTRACT cscap
+USERID c##ggs_admin@orcl, PASSWORD welcome1
+--RecoveryOptions OverwriteMode
+--TRANLOGOPTIONS INTEGRATEDPARAMS (MAX_SGA_SIZE 164)
+LOGALLSUPCOLS
+UPDATERECORDFORMAT COMPACT
+EXTTRAIL ./dirdat/cs
+--EOFDELAYCSECS 1
+--BR BROFF
+--getUpdateBefores
+SOURCECATALOG pdborcl
+TABLE csdemo.employee;
+--TranLogOptions excludeUser csdemo --ignore changes made by csuser

@@ -1,0 +1,168 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.oracle.wins.cloud</groupId>
+  <artifactId>cloud-common</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
+  <packaging>jar</packaging>
+  
+  <parent>
+    <groupId>com.oracle.wins.cloud</groupId>
+    <artifactId>wins-cloud</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+  </parent>
+
+  <name>cloud-api</name>
+  <url>http://maven.apache.org</url>
+
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpclient</artifactId>
+      <version>4.5</version>
+    </dependency>
+    <dependency>
+      <groupId>com.jcraft</groupId>
+      <artifactId>jsch</artifactId>
+      <version>0.1.53</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.3</version>
+        <type>maven-plugin</type>
+    </dependency>   
+  </dependencies>
+  
+  <profiles>
+    <profile>
+      <id>cloudAPI</id>
+      <activation>
+        <property>
+          <name>executeCloudUtil</name>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-antrun-plugin</artifactId>
+            <version>1.8</version>
+            <executions>
+              <execution>
+                <id>first</id>
+                <phase>install</phase>
+                <configuration>
+                  <target>
+                    <property name="runtime_classpath" refid="maven.runtime.classpath" />
+                    <java classname="com.oracle.wins.restclient.ExecuteGoal"
+                      fork="true" failonerror="true" maxmemory="512m">
+                      <arg value="${opc.properties}" />
+                      <arg value="${goal}" />
+                      <arg value="${job.id}" />
+                      <classpath>
+                        <pathelement path="${runtime_classpath}" />
+                        <pathelement path="${user.dir}" />
+                      </classpath>
+                    </java>
+                  </target>
+                </configuration>
+                <goals>
+                  <goal>run</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    
+    <profile>
+      <id>executeShellScript</id>
+      <activation>
+        <property>
+          <name>executeSh</name>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>properties-maven-plugin</artifactId>
+            <version>1.0-alpha-2</version>
+              <executions>
+                <execution>
+                  <phase>initialize</phase>
+                  <goals>
+                    <goal>read-project-properties</goal>
+                  </goals>
+                  <configuration>
+                    <files>
+                      <file>../${opc.properties}</file>
+                    </files>
+                  </configuration>
+                </execution>
+              </executions>
+            </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-antrun-plugin</artifactId>
+            <version>1.8</version>
+            <executions>
+              <execution>
+                <id>wlstdeploy</id>
+                <phase>install</phase>
+                <goals>
+                  <goal>run</goal>
+                </goals>
+                <configuration>
+                  <target>
+                    <sshexec trust="true" failonerror="true" verbose="off" host="${jcs.ip}"
+                      keyfile="${user.dir}/pk.openssh"  
+                      username="${ssh.user}" passphrase="${ssh.passphrase}"
+                      usepty="true"
+                      command="sudo su - oracle -c /tmp/${sh} oracle"
+                      timeout="1200000"  />
+                    <taskdef name="scp"
+                      classname="org.apache.tools.ant.taskdefs.optional.ssh.Scp">
+                      <classpath refid="maven.plugin.classpath" />
+                    </taskdef>
+                  </target>
+                </configuration>
+              </execution>                  
+            </executions>
+            <dependencies>
+              <dependency>
+                <groupId>commons-net</groupId>
+                <artifactId>commons-net</artifactId>
+                <version>1.4.1</version>
+              </dependency>
+              <dependency>
+                <groupId>ant</groupId>
+                <artifactId>ant-commons-net</artifactId>
+                <version>1.6.5</version>
+              </dependency>
+              <dependency>
+                <groupId>org.apache.ant</groupId>
+                <artifactId>ant-jsch</artifactId>
+                <version>1.9.6</version>
+              </dependency>
+              <dependency>
+                <groupId>com.jcraft</groupId>
+                <artifactId>jsch</artifactId>
+                <version>0.1.53</version>
+              </dependency>
+            </dependencies>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+
+</project>

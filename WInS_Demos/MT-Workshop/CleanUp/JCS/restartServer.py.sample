@@ -1,0 +1,32 @@
+print 'Connect to nm...';
+print os.environ["DOMAIN_HOME"];
+
+nm_listener='@jcs.instance@-wls-1'
+adminserver='@jcs.instance@'
+cluster_name='@jcs.instance@_cluster'
+#adminserver's name created from the first 8 char + '_adminserver' suffix
+adminserver = adminserver[0:8] + '_adminserver'
+managedserver= adminserver[0:8] + '_server_1'
+
+print 'Calculated adminserver name: ' + adminserver;
+
+
+nmConnect('@weblogic.admin.user@', '@weblogic.admin.pass@', nm_listener.lower(), '6555', '@jcs.instance@_domain',os.environ["DOMAIN_HOME"],'ssl')
+print adminserver + ' status...' + nmServerStatus(adminserver);
+nmKill(managedserver)
+nmKill(adminserver)
+nmStart(adminserver)
+nmStart(managedserver)
+nmDisconnect()
+
+connect('@weblogic.admin.user@','@weblogic.admin.pass@','t3://@jcs.instance@-wls-1.compute-@identity.domain@.oraclecloud.internal:7001')
+
+
+print "************************Removing Administrator user in default security realm ****************************"
+serverConfig()
+cd('/')
+realm=cmo.getSecurityConfiguration().getDefaultRealm()
+atnr=realm.lookupAuthenticationProvider('DefaultAuthenticator')
+atnr.removeUser('administrator')
+
+disconnect()

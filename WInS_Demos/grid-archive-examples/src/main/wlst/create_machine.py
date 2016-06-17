@@ -1,6 +1,6 @@
 user="weblogic"
 password="welcome1"
-listenAddress="wins-vbox"
+listenAddress="localhost"
 listenPort=5556
 domainName="mydomain"
 domainDirectory="/u01/content/weblogic-innovation-seminars/WInS_Demos/grid-archive-examples/Oracle/Domains/mydomain"

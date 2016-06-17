@@ -42,7 +42,7 @@ import weblogic.websocket.WebSocketConnection;
  * @see Notification
  * @see WebSocketConnection
  * 
- * @version 12.1.2
+ * @version 12.1.3
  */
 public class BidNotifier implements ClientNotifier {
 

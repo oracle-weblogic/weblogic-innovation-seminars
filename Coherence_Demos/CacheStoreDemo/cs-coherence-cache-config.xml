@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<!DOCTYPE cache-config SYSTEM "cache-config.dtd">
+
+<cache-config>
+  <caching-scheme-mapping>
+    <cache-mapping>
+        <cache-name>Employee</cache-name>
+        <scheme-name>distributed-toplinkgrid</scheme-name>
+    </cache-mapping>
+  </caching-scheme-mapping>
+  <caching-schemes>
+    <distributed-scheme>
+      <scheme-name>distributed-toplinkgrid</scheme-name>
+      <service-name>TopLinkGridJPA</service-name>
+      <backing-map-scheme>
+        <read-write-backing-map-scheme>
+          <internal-cache-scheme>
+            <local-scheme/>
+          </internal-cache-scheme>
+          <!-- Define the cache scheme -->
+          <cachestore-scheme>
+            <class-scheme>
+              <!-- Since the client code is using Coherence API we need the "standalone" version of the cache loader -->
+              <class-name>oracle.eclipselink.coherence.standalone.EclipseLinkJPACacheStore</class-name>
+              <init-params>
+                <init-param>
+                  <!-- In this case cache name==entity name -->
+                  <param-type>java.lang.String</param-type>
+                  <param-value>{cache-name}</param-value>
+                </init-param>
+                <init-param>
+                  <!-- persistence unit name -->
+                  <param-type>java.lang.String</param-type>
+                  <param-value>employee</param-value>
+                </init-param>
+              </init-params>
+            </class-scheme>
+          </cachestore-scheme>
+        </read-write-backing-map-scheme>
+      </backing-map-scheme>
+      <autostart>true</autostart>
+    </distributed-scheme>
+  </caching-schemes>
+</cache-config>
+
+
+
+
+
+

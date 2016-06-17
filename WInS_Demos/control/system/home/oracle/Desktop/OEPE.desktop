@@ -1,11 +1,9 @@
-#!/usr/bin/env xdg-open
-
 [Desktop Entry]
 Version=1.0
 Type=Application
 Terminal=false
-Icon[en_US]=eclipse
+Icon[en_US]=/u02/oepe/icon.xpm
 Exec=/u01/oepe/eclipse
 Name[en_US]=OEPE
 Name=OEPE
-Icon=eclipse
+Icon=/home/oracle/Desktop/wins_demos/control/images/oepe.jpg

@@ -4,8 +4,8 @@
 Encoding=UTF-8
 Name=SQL Developer
 Comment=Oracle SQL Developer
-Icon=/opt/sqldeveloper/icon.png
-Exec=sqldeveloper
+Icon=/u01/app/oracle/product/12.1.0/dbhome_1/sqldeveloper/icon.png
+Exec=/u01/app/oracle/product/12.1.0/dbhome_1/sqldeveloper/sqldeveloper.sh
 Terminal=false
 Type=Application
 X-Desktop-File-Install-Version=0.15

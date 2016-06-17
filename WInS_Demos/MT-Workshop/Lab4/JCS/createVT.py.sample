@@ -1,0 +1,16 @@
+cluster_name='@jcs.instance@_cluster'
+
+connect('@weblogic.admin.user@','@weblogic.admin.pass@','t3://@jcs.instance@-wls-1.compute-@identity.domain@.oraclecloud.internal:7001')
+edit()
+
+print "************************ Creating Virtual Target VT6 ****************************"
+startEdit()
+cd('/')
+cmo.createVirtualTarget('VT6')
+cd('/VirtualTargets/VT6')
+cmo.setHostNames(array(["@jcs.ip@"],java.lang.String))
+cmo.setUriPrefix('/dp6')
+set('Targets',jarray.array([ObjectName('com.bea:Name='+cluster_name+',Type=Cluster')], ObjectName))
+activate()
+
+disconnect()

@@ -1,0 +1,44 @@
+opc.base.url=jaas.oraclecloud.com
+opc.identity.domain=opc_identity_domain
+opc.username=opc_account_username
+opc.password=opc_account_password
+
+# Storage information
+# Check your generic storage url - see documentation
+opc.storage.generic.url=storage.oraclecloud.com
+# The name of the container to use by Database and Java Cloud Services
+opc.storage.container=wins_container
+
+# SSH key details
+# first you need to create your SSH key pair. Use example Putty's Keygen tool - see documentation
+ssh.user=opc
+# public ssh key in the following format
+ssh.public.key=ssh-rsa AAAAB3NzaC1y........vaPU+vcppMHINDBAbPyT6qNIklg+bAJgE8zPerQ== rsa-key-20150227
+ssh.passphrase=ssh_passphrase
+
+# JCS details
+jcs.rest.url=/paas/service/jcs/api/v1.1/instances/
+#For using the WLS 12.2.1 instance comment the below two lines
+jcs.instance.version.1=12.1.3.0.4
+jcs.instance.otd.1=true
+
+# For using the WLS12.2.1 instance uncomment the below two lines
+#jcs.instance.version.1=12.2.1.0.160119
+#jcs.instance.otd.1=false
+jcs.instance.1=winstestWLS
+jcs.instance.desc.1=winstest instance through REST
+jcs.instance.admin.user.1=weblogic_admin_username
+jcs.instance.admin.password.1=weblogic_admin_password
+
+# DBCS details
+dbcs.base.url=dbaas.oraclecloud.com
+dbcs.rest.url=/paas/service/dbcs/api/v1.1/instances/
+dbcs.instance.version.1=12.1.0.2
+dbcs.instance.1=winstestDB
+dbcs.instance.sid.1=ORCL
+dbcs.instance.pdb1.1=PDB1
+dbcs.instance.desc.1=winstest db instance through REST
+dbcs.instance.usable.storage.1=15
+
+dbcs.dba.name=sys
+dbcs.dba.password=dba_password

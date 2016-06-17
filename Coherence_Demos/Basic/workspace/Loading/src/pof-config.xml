@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE pof-config SYSTEM "pof-config.dtd">
+<pof-config>
+  <user-type-list>
+    <!-- coherence POF user types -->
+    <include>coherence-pof-config.xml</include>
+    <!-- com.tangosol.examples package -->
+    <user-type>
+      <type-id>1001</type-id>
+      <class-name>com.oracle.coherence.handson.ContactId</class-name>
+    </user-type>
+    <user-type>
+      <type-id>1002</type-id>
+      <class-name>com.oracle.coherence.handson.Contact</class-name>
+    </user-type>
+    <user-type>
+      <type-id>1003</type-id>
+      <class-name>com.oracle.coherence.handson.Address</class-name>
+    </user-type>
+    <user-type>
+        <type-id>1004</type-id>
+      <class-name>com.oracle.coherence.handson.PhoneNumber</class-name>
+    </user-type>
+    <user-type>
+      <type-id>1006</type-id>
+      <class-name>com.oracle.coherence.handson.OfficeUpdater</class-name>
+    </user-type>    
+    <user-type>
+      <type-id>1010</type-id>
+      <class-name>java.sql.Date</class-name>
+      <serializer>
+          <class-name>com.oracle.coherence.handson.SqlDateSerializer</class-name>
+      </serializer>
+    </user-type>    
+  </user-type-list>
+  <allow-interfaces>true</allow-interfaces>
+  <allow-subclasses>true</allow-subclasses>
+</pof-config>

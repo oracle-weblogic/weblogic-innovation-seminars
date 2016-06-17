@@ -1,0 +1,252 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+
+  <parent>
+    <groupId>com.oracle.wins.cloud</groupId>
+    <artifactId>wins-cloud</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+  </parent>
+
+  <groupId>com.oracle.wins.cloud</groupId>
+  <artifactId>Lab2</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
+  
+  <name>Lab2</name>
+  
+  <properties>
+    <main.dir>${user.dir}</main.dir>
+    <dbcs.ip>DEFINE.DBCS.IP</dbcs.ip>
+    <jcs.ip>DEFINE.JCS.IP</jcs.ip>
+  </properties>
+  
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.jcraft</groupId>
+      <artifactId>jsch</artifactId>
+      <version>0.1.53</version>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.mojo</groupId>
+      <artifactId>exec-maven-plugin</artifactId>
+      <version>1.4.0</version>
+    </dependency> 
+  </dependencies>
+
+  <profiles>
+    <profile>
+          <id>copyToJCS</id>
+          <activation>
+            <property>
+              <name>Lab2</name>
+            </property>
+          </activation>
+          <build>
+            <plugins>
+              <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>properties-maven-plugin</artifactId>
+                <version>1.0-alpha-2</version>
+                  <executions>
+                    <execution>
+                      <phase>initialize</phase>
+                      <goals>
+                        <goal>read-project-properties</goal>
+                      </goals>
+                      <configuration>
+                        <files>
+                          <file>${main.dir}/../../../cloud.demos/${opc.properties}</file>
+                        </files>
+                      </configuration>
+                    </execution>
+                  </executions>
+                </plugin>
+              <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.8</version>
+                <executions>
+	         <execution>
+                    <id>replaceJCS</id>
+                    <phase>install</phase>
+                    <goals>
+                      <goal>run</goal>
+                    </goals>
+                    <configuration>
+                      <target>
+                        <copy todir="${main.dir}/JCS" overwrite="true">
+                          <fileset dir="${main.dir}/JCS">
+                            <include name="**/*.sample"/>
+                          </fileset>
+			  <mapper type="regexp" from="^(.*?)(\$$[^/\\\.]*)?\.sample$$" to="\1"/>
+                          <filterset>
+                            <filter token="jcs.instance" value="${jcs.instance.1}"/>
+                            <filter token="identity.domain" value="${opc.identity.domain}"/>
+                            <filter token="weblogic.admin.user" value="${jcs.instance.admin.user.1}"/>
+                            <filter token="weblogic.admin.pass" value="${jcs.instance.admin.password.1}"/>
+                            <filter token="jcs.ip" value="${jcs.ip}"/>
+                            <filter token="database.dba.user" value="${dbcs.dba.name}"/>
+                            <filter token="database.dba.pass" value="${dbcs.dba.password}"/>
+                            <filter token="database.instance.pdb1.1" value="${dbcs.instance.pdb1.1}"/>
+                            <filter token="database.instance.pdb2.1" value="${dbcs.instance.pdb2.1}"/>
+                            <filter token="database.instance.1" value="${dbcs.instance.1}"/>
+                          </filterset>
+                        </copy>
+                      </target>
+                    </configuration>
+                  </execution>
+		  <execution>
+                    <id>replaceDBCS</id>
+                    <phase>install</phase>
+                    <goals>
+                      <goal>run</goal>
+                    </goals>
+                    <configuration>
+                      <target>
+                        <copy todir="${main.dir}/DBCS" overwrite="true">
+                          <fileset dir="${main.dir}/DBCS">
+                            <include name="**/*.sample"/>
+                          </fileset>
+                          <mapper type="regexp" from="^(.*?)(\$$[^/\\\.]*)?\.sample$$" to="\1"/>
+                          <filterset>
+                            <filter token="jcs.instance" value="${jcs.instance.1}"/>
+                            <filter token="identity.domain" value="${opc.identity.domain}"/>
+                            <filter token="weblogic.admin.user" value="${jcs.instance.admin.user.1}"/>
+                            <filter token="weblogic.admin.pass" value="${jcs.instance.admin.password.1}"/>
+                            <filter token="database.dba.user" value="system"/>
+                            <filter token="database.dba.pass" value="${dbcs.dba.password}"/>
+                            <filter token="database.instance.pdb1.1" value="${dbcs.instance.pdb1.1}"/>
+			    <filter token="database.instance.pdb2.1" value="${dbcs.instance.pdb2.1}"/>
+                            <filter token="database.instance.1" value="${dbcs.instance.1}"/>
+                          </filterset>
+                        </copy>
+                      </target>
+                    </configuration>
+                  </execution>
+                <execution>
+                    <id>copy2DBCS</id>
+                    <phase>install</phase>
+                    <goals>
+                      <goal>run</goal>
+                    </goals>
+                    <configuration>
+                      <target>
+                        <echo message="Copy artifacts to DBCS." />
+                        <scp trust="true" failonerror="true" verbose="off" sftp="false" 
+                          keyfile="${main.dir}/../winsmt"
+                          passphrase="${ssh.passphrase}"
+                          filemode="755"
+                          todir="oracle@${dbcs.ip}:/tmp"> 
+                          <fileset dir="${main.dir}/DBCS">
+                            <include name="**/*.sh"/>
+			    <include name="**/*.sql"/>
+		          </fileset>
+                        </scp>
+                        <sshexec trust="true" failonerror="true" verbose="off" host="${dbcs.ip}"
+                          keyfile="${main.dir}/../winsmt"  
+                          username="oracle" passphrase="${ssh.passphrase}"
+                          usepty="true"
+                          command="chmod 755 /tmp/Medrec.sql /tmp/Medrec1DB.sh /tmp/Medrec2DB.sh /tmp/DayTrader3DB.sh"
+                          timeout="1200000"  />
+                        <sshexec trust="true" failonerror="true" verbose="off" host="${dbcs.ip}"
+                          keyfile="${main.dir}/../winsmt"  
+                          username="oracle" passphrase="${ssh.passphrase}"
+                          usepty="true"
+                          command="/tmp/Medrec1DB.sh"
+                          timeout="1200000"  />
+                        <sshexec trust="true" failonerror="true" verbose="off" host="${dbcs.ip}"
+                          keyfile="${main.dir}/../winsmt"  
+                          username="oracle" passphrase="${ssh.passphrase}"
+                          usepty="true"
+                          command="/tmp/Medrec2DB.sh"
+                          timeout="1200000"  />
+                        <sshexec trust="true" failonerror="true" verbose="off" host="${dbcs.ip}"
+                          keyfile="${main.dir}/../winsmt"  
+                          username="oracle" passphrase="${ssh.passphrase}"
+                          usepty="true"
+                          command="/tmp/DayTrader3DB.sh"
+                          timeout="1200000"  />
+                        <taskdef name="scp"
+                          classname="org.apache.tools.ant.taskdefs.optional.ssh.Scp">
+                          <classpath refid="maven.plugin.classpath" />
+                        </taskdef>                        
+                      </target>
+                    </configuration>
+                  </execution>
+                  <execution> 
+                    <id>copyScript2JCS</id>
+                    <phase>install</phase>
+                    <goals>
+                      <goal>run</goal>
+                    </goals>
+                    <configuration>
+                      <target>
+                      <echo message="Copy artifacts to JCS." />
+                       <scp trust="true" failonerror="true" verbose="off" sftp="false" 
+                          keyfile="${main.dir}/../winsmt"
+                          passphrase="${ssh.passphrase}"
+                          filemode="755"
+                          todir="opc@${jcs.ip}:/tmp"> 
+                          <fileset dir="${main.dir}/JCS">
+                                <include name="**/*.war"/>
+		                <include name="**/*.ear"/>
+				<include name="**/*.sh"/>
+                                <include name="**/*.py"/>
+                          </fileset>
+                        </scp>
+                        <sshexec trust="true" failonerror="true" verbose="off" host="${jcs.ip}"
+                          keyfile="${main.dir}/../winsmt"  
+                          username="opc" passphrase="${ssh.passphrase}"
+                          usepty="true"
+                          command="chmod 755 /tmp/chat.war /tmp/Lab1-2.py /tmp/Lab1-2.sh /tmp/medrec.ear /tmp/physician.ear /tmp/web-3.0.0.war"
+                          timeout="1200000"  /> 
+		        <sshexec trust="true" failonerror="true" verbose="off" host="${jcs.ip}"
+                          keyfile="${main.dir}/../winsmt"  
+                          username="opc" passphrase="${ssh.passphrase}"
+                          usepty="true"
+                          command="sudo su - oracle -c /tmp/Lab1-2.sh oracle"
+                          timeout="1200000"  />
+                        <taskdef name="scp"
+                          classname="org.apache.tools.ant.taskdefs.optional.ssh.Scp">
+                          <classpath refid="maven.plugin.classpath" />
+                        </taskdef>
+                      </target>
+                    </configuration>
+                  </execution>                     
+                </executions>
+                <dependencies>
+                  <dependency>
+                    <groupId>commons-net</groupId>
+                    <artifactId>commons-net</artifactId>
+                    <version>1.4.1</version>
+                  </dependency>
+                  <dependency>
+                    <groupId>ant</groupId>
+                    <artifactId>ant-commons-net</artifactId>
+                    <version>1.6.5</version>
+                  </dependency>
+                  <dependency>
+                    <groupId>org.apache.ant</groupId>
+                    <artifactId>ant-jsch</artifactId>
+                    <version>1.9.6</version>
+                  </dependency>
+                  <dependency>
+                    <groupId>com.jcraft</groupId>
+                    <artifactId>jsch</artifactId>
+                    <version>0.1.53</version>
+                  </dependency>
+                </dependencies>
+              </plugin>
+            </plugins>
+          </build>
+        </profile>
+      </profiles>
+
+</project>

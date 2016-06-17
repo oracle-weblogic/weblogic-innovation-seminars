@@ -1,0 +1,14 @@
+#!/bin/sh
+
+sqlplus @database.dba.user@/@database.dba.pass@@@database.instance.1@:1521/@database.instance.pdb1.1@.@identity.domain@.oraclecloud.internal <<EOF
+ create user conference identified by conference;
+ grant DBA to conference;
+ exit;
+EOF
+
+sqlplus conference/conference@@database.instance.1@:1521/@database.instance.pdb1.1@.@identity.domain@.oraclecloud.internal <<EOF
+ set define off;
+ set sqlblanklines on;
+ @/tmp/conference.sql
+ exit;
+EOF

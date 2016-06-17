@@ -4,7 +4,7 @@
 #
 #
 
-cp -Rf  /u01/content/weblogic-innovation-seminars/WInS_Demos/grid-archive-examples/src/main/wlst/gar_common.py /u01/wls1212/wlserver/common/wlst/
+cp -Rf  /u01/content/weblogic-innovation-seminars/WInS_Demos/grid-archive-examples/src/main/wlst/gar_common.py /u01/middleware/wlserver/common/wlst/
 
 cd /u01/content/weblogic-innovation-seminars/WInS_Demos/grid-archive-examples/Oracle/Domains/mydomain/bin/
 . ./setDomainEnv.sh

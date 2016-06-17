@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<cache-config>
+  <caching-scheme-mapping>
+    <cache-mapping>
+      <!-- Set the name of the cache to be the entity name  -->
+      <cache-name>Employees</cache-name>
+      <!-- Configure this cache to use the scheme defined below  -->
+      <scheme-name>jpa-distributed</scheme-name>
+    </cache-mapping>
+  </caching-scheme-mapping>
+  <caching-schemes>
+    <distributed-scheme>
+      <scheme-name>jpa-distributed</scheme-name>
+      <service-name>JpaDistributedCache</service-name>
+      <backing-map-scheme>
+        <read-write-backing-map-scheme>
+          <!--
+      Define the cache scheme
+      -->
+          <internal-cache-scheme>
+            <local-scheme/>
+          </internal-cache-scheme>
+          <cachestore-scheme>
+            <class-scheme>
+              <class-name>com.tangosol.coherence.jpa.JpaCacheStore</class-name>
+              <init-params>
+                <!--
+            This param is the entity name
+            This param is the fully qualified entity class
+            This param should match the value of the
+            persistence unit name in persistence.xml
+            -->
+                <init-param>
+                  <param-type>java.lang.String</param-type>
+                  <param-value>{cache-name}</param-value>
+                </init-param>
+                <init-param>
+                  <param-type>java.lang.String</param-type>
+                  <param-value>com.oracle.coherence.handson.{cache-name}</param-value>
+                </init-param>
+                <init-param>
+                  <param-type>java.lang.String</param-type>
+                  <param-value>JPA</param-value>
+                </init-param>
+              </init-params>
+            </class-scheme>
+          </cachestore-scheme>
+        </read-write-backing-map-scheme>
+      </backing-map-scheme>
+      <autostart>true</autostart>
+    </distributed-scheme>
+  </caching-schemes>
+</cache-config>

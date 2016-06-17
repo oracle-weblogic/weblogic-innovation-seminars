@@ -10,7 +10,7 @@ loadProperties('counter.properties')
 #adminPort=7001
 #domainName='dynamic-cluster-domain'
 														 
-USER_PROJECTS='/u01/wls1212/user_projects/domains/'
+USER_PROJECTS='/u01/middleware/user_projects/domains/'
 var_domain_dir = USER_PROJECTS + domainName
 
 

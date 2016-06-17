@@ -1,0 +1,11 @@
+connect('@weblogic.admin.user@','@weblogic.admin.pass@','t3://@jcs.instance@-wls-1.compute-@identity.domain@.oraclecloud.internal:7001')
+edit()
+startEdit()
+
+cd('/')
+cmo.destroyJDBCSystemResource(getMBean('/JDBCSystemResources/otrade-ds'))
+cmo.destroyJDBCSystemResource(getMBean('/JDBCSystemResources/otrade-replay-ds'))
+
+activate()
+
+undeploy('otrade')

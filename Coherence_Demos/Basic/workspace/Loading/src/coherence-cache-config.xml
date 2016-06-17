@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE cache-config SYSTEM "cache-config.dtd">
+<cache-config>
+  <caching-scheme-mapping>
+    <cache-mapping>
+      <cache-name>*</cache-name>
+      <scheme-name>ExamplesPartitionedPofScheme</scheme-name>
+    </cache-mapping>
+  </caching-scheme-mapping>
+  <caching-schemes>
+    <distributed-scheme>
+      <scheme-name>ExamplesPartitionedPofScheme</scheme-name>
+      <service-name>PartitionedPofCache</service-name>
+            <serializer>
+                    <class-name>com.tangosol.io.pof.ConfigurablePofContext</class-name>
+                    <init-params>
+                        <init-param>
+                            <param-type>string</param-type>
+                            <param-value>pof-config.xml</param-value>
+                        </init-param>
+                    </init-params>
+            </serializer>
+      <backing-map-scheme>
+        <local-scheme>
+          <!-- each node will be limited to 250MB -->
+          <high-units>250MB</high-units>
+          <unit-calculator>binary</unit-calculator>
+        </local-scheme>
+      </backing-map-scheme>
+      <autostart>true</autostart>
+    </distributed-scheme>
+  </caching-schemes>
+</cache-config>

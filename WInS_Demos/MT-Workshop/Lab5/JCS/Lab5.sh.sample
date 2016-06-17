@@ -1,0 +1,14 @@
+#!/bin/bash
+
+echo "Stoping servers in Cluster"
+
+/u01/app/oracle/middleware/oracle_common/common/bin/wlst.sh /tmp/stopCluster.py
+
+unalias cp 
+cp -f /u01/data/domains/@jcs.instance@_domain/bin/setDomainEnv.sh /tmp/setDomainEnv.sh.backup
+cp -f /tmp/setDomainEnv.sh /u01/data/domains/@jcs.instance@_domain/bin/
+
+
+echo "Starting Server in Cluster with RCM enabled"
+
+/u01/app/oracle/middleware/oracle_common/common/bin/wlst.sh  /tmp/startCluster.py

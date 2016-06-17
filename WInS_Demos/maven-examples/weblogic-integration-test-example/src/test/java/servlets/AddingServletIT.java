@@ -25,7 +25,7 @@ public class AddingServletIT
   public String runTest(int p1, int p2) throws Exception
   {
     int res = p1 + p2;
-    String test = String.format("http://wins-vbox:7001/weblogic-integration-test-example-12.1.2.0.0/AddingServlet?p1=%s&p2=%s", p1, p2);
+    String test = String.format("http://wins-vbox:7001/weblogic-integration-test-example-12.1.3.0.0/AddingServlet?p1=%s&p2=%s", p1, p2);
 
     URL url = new URL(test);
     URLConnection conn = url.openConnection();

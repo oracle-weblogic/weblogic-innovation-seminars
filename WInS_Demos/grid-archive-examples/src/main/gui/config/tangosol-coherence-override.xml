@@ -9,11 +9,11 @@
    <address-providers>
       <address-provider id="extend-address-provider">
         <socket-address>
-          <address>172.16.254.254</address>
+          <address>10.0.2.15</address>
           <port>9020</port>
         </socket-address>
         <socket-address>
-          <address>172.16.254.254</address>
+          <address>10.0.2.15</address>
           <port>9022</port>
         </socket-address>
       </address-provider>

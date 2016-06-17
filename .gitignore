@@ -3,3 +3,5 @@ target/
 *.iml
 *.ipr
 *.iws
+cloud.demos/environment.properties
+cloud.demos/pk.openssh

@@ -1,0 +1,12 @@
+#!/bin/sh
+
+cd $DOMAIN_HOME/bin
+. ./setDomainEnv.sh
+
+export JVM_ARGS="-Dweblogic.security.TrustKeyStore=DemoTrust -Dweblogic.security.SSL.ignoreHostnameVerification=true"
+export ADMIN_URL="t3://@jcs.instance@-wls-1.compute-@identity.domain@.oraclecloud.internal:7001"
+export WEBLOGIC_USER="@weblogic.admin.user@"
+export WEBLOGIC_PASS="@weblogic.admin.pass@"
+
+
+${JAVA_HOME}/bin/java ${JVM_ARGS} weblogic.Deployer -adminurl ${ADMIN_URL} -user ${WEBLOGIC_USER} -password ${WEBLOGIC_PASS} -name websocket-snake-wls -undeploy

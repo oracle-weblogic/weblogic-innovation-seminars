@@ -4,9 +4,9 @@ user='weblogic'
 password='welcome1'
 listenAddress='localhost'
 listenPort=5556
-adminPort=9001
-domainName='weblogic-basic-domain'
-USER_PROJECTS='/u01/wls1212/user_projects/domains/'
+adminPort=7001
+domainName='weblogic-examples-domain'
+USER_PROJECTS='/u01/middleware/user_projects/domains/'
 var_domain_dir = USER_PROJECTS + domainName
 
 print ''
@@ -25,10 +25,10 @@ print ''
 
 
 	
-connect('weblogic','welcome1', 't3://localhost:9001');
+connect('weblogic','welcome1', 't3://localhost:7001');
 
 #Deploying Application to WebLogic Server
-deploy('weblogic-deployment-example','./weblogic-deployment-example/target/weblogic-deployment-example-12.1.2.0.0.war', targets='AdminServer')
+deploy('weblogic-deployment-example','./weblogic-deployment-example/target/weblogic-deployment-example-12.1.3.0.0.war', targets='AdminServer')
 startApplication('weblogic-deployment-example')
 
 # Undeploy the application

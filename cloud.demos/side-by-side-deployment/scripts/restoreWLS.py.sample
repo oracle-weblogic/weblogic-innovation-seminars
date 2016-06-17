@@ -1,0 +1,52 @@
+# Get managed servers list
+def getManagedServers():
+   try:
+      print 'Get managed server list';
+      domainConfig()
+      return cmo.getServers()
+   except:
+      print 'Exception while getting managed server list!';
+      dumpStack();
+      
+
+adminserver='@jcs.instance@'
+#adminserver's name created from the first 8 char + '_adminserver' suffix
+adminserver = adminserver[0:8] + '_adminserver'
+nm_listener='@jcs.instance@-wls-1'
+
+connect('@weblogic.admin.user@','@weblogic.admin.pass@','t3s://@jcs.instance@-wls-1.compute-@identity.domain@.oraclecloud.internal:7200')
+
+servers = getManagedServers()
+
+stopApplication('aussie-tripper-v1', versionIdentifier='v1')
+stopApplication('aussie-tripper-v1', versionIdentifier='v2')
+undeploy('aussie-tripper-v1', versionIdentifier='v1')
+undeploy('aussie-tripper-v1', versionIdentifier='v2')
+
+edit()
+startEdit()
+
+cd('/')
+cmo.setAdministrationPortEnabled(false)
+
+cd('/Servers/' + adminserver)
+cmo.setTunnelingEnabled(false)
+
+save()
+activate()
+
+nmConnect('@weblogic.admin.user@', '@weblogic.admin.pass@', nm_listener.lower(), '6555', '@jcs.instance@_domain',os.environ["DOMAIN_HOME"],'ssl')
+for server in servers:
+  print server.getName() + ' status...' + nmServerStatus(server.getName());
+  # Do not touch the adminserver, it's already running
+  if adminserver != server.getName():
+    # Get state and machine
+    serverState = nmServerStatus(server.getName())
+    print server.getName() + " is " + serverState
+    # start if needed
+    if serverState == 'SHUTDOWN':
+      print 'Starting ' + server.getName();
+      nmStart(server.getName())
+      print 'Now ' + server.getName() + ' status is ' + nmServerStatus(server.getName());
+
+nmDisconnect()

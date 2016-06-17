@@ -182,7 +182,7 @@ except:
 else:
   print 'updateDomain() succeeded!'
 
-machine = createMachine(machine_Name, 'Plain', machine_ListenAddress, 5556)
+machine = createMachine(machine_Name, 'Plain', machine_ListenAddress, 5557)
 cd('/Servers/AdminServer')
 cmo.setMachine(machine)
 serverStart = create('AdminServer', 'ServerStart')

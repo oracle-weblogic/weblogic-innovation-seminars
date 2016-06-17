@@ -1,0 +1,27 @@
+<html>
+<body>
+<h1><strong><img src="file:///u01/content/weblogic-innovation-seminars/WInS_Demos/control/images/wins_logo.png" alt="winslogo" width="1024" height="81" /></strong></h1>
+<h1><strong>WInS VirtualBox Information</strong></h1>
+<p>This WInS VirtualBox VM is for use by Oracle employees and Partners only! Use at your own risk... <br />Usage of this appliance is governed by the applicable licenses of the various products and their concerned companies.</p>
+<hr />
+<h3>Accessing the Virtual Box at different locations</h3>
+<p>You may be using this Virtual Box in 3 locations:</p>
+<ul>
+<li>(a) At home / external location without VPN (so not in Oracle Network)</li>
+<li>(b) home / external location with VPN (so in Oracle Network)</li>
+<li>(c) Oracle Office (so in Oracle Network).</li>
+</ul>
+<p>Thus, to some extent (b) and (c) above are similar</p>
+<p>If (a) then please unset / remove the Oracle Proxy for Maven / GIT / Internet access using the shortcut (Remove Oracle Proxy) available at the desktop.<br />If (b) or (c) then please set the Oracle Proxy for Maven / GIT / Internet access using the shortcut (Set Oracle Proxy) available at the desktop.</p>
+<p>Once this has been done, open a new Terminal and execute a simple command to check Internet connectivity : <strong>wget www.oracle.com</strong><br />A successful run results in the creation of a index.html file at the desktop which contains the website that we were trying to access.</p>
+<hr />
+<h3>Important information about WInS Demos</h3>
+<p>New modules, bug fixes to code will be pushed to the GitHub. Do execute the shortcut (<strong>Update WInS Demos</strong>) available at the Desktop to pull in the latest code. If you have made changes to the code, you could again use the shortcut to revert back all your changes to the original WInS code.</p>
+<p>By default, the Oracle Database 12C is not started. Please start the Database by using the shortcut (<strong>Start 12c Database</strong>) available at the desktop. This is essential for successful execution of the WInS demos.</p>
+<p>Before creation of a domain, do check if it already exists. If the domain you want to create already exists - find out if its associated processes are running, kill them and then delete the domain. Once you are sure the domain doesnt exist and neither does it have any associated processes, you could recreate the domain. We would recommend creation of a new domain for every run of a module (demo).<br />Some simple commands to help :<br />* check the domains already created : ls -ltr /u01/middleware/user_projects/domains<br />* list the running Java processes : jps<br />* check if any AdminServer of a domain is running : ps -aef | grep AdminServer<br />* check if any Managed Server (say name is ms-1) is running : ps -aef | grep ms-1<br />* kill any process : kill -9 &lt;process id&gt;<br />* taking a thread dump : kill -3 &lt;process id&gt;<br />* deleting any directory / domain : rm -Rf &lt;directory / domain location eg : /u01/middleware/user_projects/domains/weblogic-examples-domain&gt;</p>
+<hr />
+<h3>Usernames and passwords</h3>
+<p>Linux root password: oracle<br />Database all passwords: welcome1<br />Middleware passwords: welcome1</p>
+<p>Database Information:<br />Oracle CDB SID : orcl (system/welcome1)<br />Pluggable PDB1: pdborcl<br />Pluggable PDB2: pdb2 (systempdb2/welcome1)</p>
+<body/>
+<html/>
